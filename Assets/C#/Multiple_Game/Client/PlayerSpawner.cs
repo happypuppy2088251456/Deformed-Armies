@@ -1,23 +1,18 @@
+using NetGame.Protocol;
 using UnityEngine;
-using SocketGameProtocol;
 
-namespace Multiple_Game
+namespace NetGame.Unity
 {
     /// <summary>
-    /// 玩家生成器：负责在场景中生成和销毁玩家预制体。
+    /// 玩家生成器：在场景中生成/销毁本地与远端玩家预制体。
     /// 挂在场景中的空 GameObject 上。
     /// </summary>
-    public class PlayerSpawner : MonoBehaviour
+    public sealed class PlayerSpawner : MonoBehaviour
     {
         public static PlayerSpawner Instance { get; private set; }
 
-        [Header("预制体引用")]
-        [SerializeField] private GameObject playerPrefab; // 玩家预制体（包含 playerMove、playerCamera、Animator 等组件）
-
-        [Header("生成配置")]
-        [SerializeField] private Vector3 spawnOffset = new Vector3(2f, 0f, 0f); // 每个新玩家的生成偏移
-
-        private int spawnCount = 0;
+        [Header("玩家预制体（需含 playerMove、playerCamera、Rigidbody、Animator）")]
+        [SerializeField] private GameObject playerPrefab;
 
         private void Awake()
         {
@@ -29,66 +24,8 @@ namespace Multiple_Game
             Instance = this;
         }
 
-        /// <summary>
-        /// 生成远端玩家预制体。
-        /// </summary>
-        public RemotePlayerData SpawnRemotePlayer(PlayerInfoData info)
-        {
-            if (playerPrefab == null)
-            {
-                Debug.LogError("[PlayerSpawner] 未设置玩家预制体！");
-                return null;
-            }
-
-            // 计算生成位置（带偏移，避免重叠）
-            Vector3 spawnPos = new Vector3(info.posX, info.posY, info.posZ) + spawnOffset * spawnCount;
-            spawnCount++;
-
-            // 实例化预制体
-            GameObject playerGO = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
-            playerGO.name = $"RemotePlayer_{info.username}_{info.playerId}";
-
-            // 获取组件
-            var move = playerGO.GetComponent<playerMove>();
-            var camera = playerGO.GetComponentInChildren<playerCamera>();
-
-            if (move == null)
-            {
-                Debug.LogError($"[PlayerSpawner] 预制体缺少 playerMove 组件：{playerGO.name}");
-                Destroy(playerGO);
-                return null;
-            }
-
-            if (camera == null)
-            {
-                Debug.LogError($"[PlayerSpawner] 预制体缺少 playerCamera 组件：{playerGO.name}");
-                Destroy(playerGO);
-                return null;
-            }
-
-            // 创建远端玩家数据
-            var remoteData = new RemotePlayerData(info.playerId, info.username, playerGO, move, camera);
-
-            return remoteData;
-        }
-
-        /// <summary>
-        /// 销毁远端玩家预制体。
-        /// </summary>
-        public void DespawnRemotePlayer(RemotePlayerData remote)
-        {
-            if (remote?.GameObject != null)
-            {
-                Destroy(remote.GameObject);
-                spawnCount--;
-            }
-        }
-
-        /// <summary>
-        /// 生成本地玩家预制体（可选：如果本地玩家也需要动态生成）。
-        /// 如果本地玩家已经存在于场景中，则不需要调用此方法。
-        /// </summary>
-        public (playerMove move, playerCamera camera) SpawnLocalPlayer(Vector3 spawnPos)
+        /// <summary>生成本地玩家。</summary>
+        public (playerMove move, playerCamera cam) SpawnLocalPlayer(Vector3 pos)
         {
             if (playerPrefab == null)
             {
@@ -96,13 +33,70 @@ namespace Multiple_Game
                 return (null, null);
             }
 
-            GameObject playerGO = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
-            playerGO.name = "LocalPlayer";
+            GameObject go = Instantiate(playerPrefab, pos, Quaternion.identity);
+            go.name = "LocalPlayer";
+            return Configure(go, true);
+        }
 
-            var move = playerGO.GetComponent<playerMove>();
-            var camera = playerGO.GetComponentInChildren<playerCamera>();
+        /// <summary>生成远端玩家。</summary>
+        public RemotePlayer SpawnRemotePlayer(PlayerInfo info)
+        {
+            if (playerPrefab == null)
+            {
+                Debug.LogError("[PlayerSpawner] 未设置玩家预制体！");
+                return null;
+            }
 
-            return (move, camera);
+            Vector3 pos = new Vector3(info.Position.X, info.Position.Y, info.Position.Z);
+            GameObject go = Instantiate(playerPrefab, pos, Quaternion.identity);
+            go.name = $"RemotePlayer_{info.Username}_{info.PlayerId}";
+
+            var (move, cam) = Configure(go, false);
+            if (move == null)
+            {
+                Destroy(go);
+                return null;
+            }
+            return new RemotePlayer(info.PlayerId, info.Username, go, move, cam);
+        }
+
+        public void Despawn(RemotePlayer remote)
+        {
+            if (remote?.GameObject != null) Destroy(remote.GameObject);
+        }
+
+        public void DespawnLocal(GameObject local)
+        {
+            if (local != null) Destroy(local);
+        }
+
+        private (playerMove, playerCamera) Configure(GameObject go, bool isLocal)
+        {
+            playerMove move = go.GetComponent<playerMove>();
+            playerCamera cam = go.GetComponentInChildren<playerCamera>();
+
+            if (move == null)
+            {
+                Debug.LogError($"[PlayerSpawner] 预制体缺少 playerMove 组件：{go.name}");
+                return (null, null);
+            }
+
+            move.SetLocalPlayer(isLocal);
+            if (cam != null) cam.SetLocalPlayer(isLocal);
+
+            if (!isLocal)
+            {
+                // 远端玩家由插值直接驱动 transform，物理体设为 Kinematic 避免双驱动打架
+                Rigidbody rb = go.GetComponent<Rigidbody>();
+                if (rb != null) rb.isKinematic = true;
+
+                // 关闭远端玩家自带的相机与监听，避免重复渲染
+                if (cam != null && cam.camera != null) cam.camera.enabled = false;
+                AudioListener listener = go.GetComponentInChildren<AudioListener>();
+                if (listener != null) listener.enabled = false;
+            }
+
+            return (move, cam);
         }
     }
 }

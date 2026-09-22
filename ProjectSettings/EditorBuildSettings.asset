@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/manbaOut_Server.unity
     guid: 3ddab6f8c7f4f324cac2b0bb0953e46a
   - enabled: 1
-    path: Assets/Client260831.unity
+    path: Assets/Scene/Client260831.unity
     guid: 7498c1ab84d4c7c4da89d30f76227d24
   m_configObjects: {}

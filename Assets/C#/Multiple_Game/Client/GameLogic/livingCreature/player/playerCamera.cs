@@ -142,6 +142,16 @@ public class playerCamera : MonoBehaviour
     }
 
     /// <summary>
+    /// 仅设置相机俯仰角（远端玩家视角插值用，避免重复覆盖身体偏航角）。
+    /// </summary>
+    public void SetPitch(float pitch)
+    {
+        xRotation = pitch;
+        if (cameraTransform != null)
+            cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+    }
+
+    /// <summary>
     /// 设置当前对象是否为本地玩家。
     /// </summary>
     public void SetLocalPlayer(bool isLocal)

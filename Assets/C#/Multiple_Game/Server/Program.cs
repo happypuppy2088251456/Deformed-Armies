@@ -1,28 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
-namespace Multiple_Game
+namespace NetGame.ServerSide
 {
-    class Program
+    /// <summary>
+    /// 可选：独立控制台服务端，用于脱离 Unity 单独联调（局域网测试房主不在本机时）。
+    /// Unity 运行时不调用此 Main，可安全保留；若项目不需要，删除本文件亦可。
+    /// </summary>
+    internal static class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Console.WriteLine("=== 游戏服务端启动中 ===");
+            int port = 10003;
+            if (args.Length > 0 && int.TryParse(args[0], out int p)) port = p;
 
-            // 创建 Server 实例（内部自动开始监听）
-            Server server = new Server();
+            var server = new Server();
+            server.OnLog += Console.WriteLine;
+            server.OnPlayerJoin += (id, info) => Console.WriteLine($"[JOIN] {info.Username} id={id}");
+            server.OnPlayerLeave += id => Console.WriteLine($"[LEAVE] id={id}");
+            server.OnRoomDissolved += () => Console.WriteLine("[ROOM DISSOLVED]");
 
-            Console.WriteLine($"服务器IP: {server.Server_IP}");
-            Console.WriteLine("端口: 10003");
+            server.CreateRoom(port);
+            Console.WriteLine($"服务端已监听端口 {port}，局域网地址 {Server.GetLocalIPv4()}:{port}");
+            Console.WriteLine("输入 exit 关停服务端");
 
+            while (server.IsRunning)
+            {
+                string line = Console.ReadLine();
+                if (line != null && line.Trim().ToLower() == "exit") break;
+            }
 
-            // 保持主线程不退出，直到用户关闭
-            Console.ReadLine();
+            server.Shutdown();
         }
     }
 }

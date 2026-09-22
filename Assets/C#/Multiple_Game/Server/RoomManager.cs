@@ -1,254 +1,105 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using SocketGameProtocol;
+using NetGame.Protocol;
 
-namespace Multiple_Game
+namespace NetGame.ServerSide
 {
-    // 房间管理器：管理房间创建/销毁、玩家加入/离开、广播。
-    internal class RoomManager
+    /// <summary>
+    /// 服务端权威状态：维护房间内玩家列表与每个人的最新状态。线程安全。
+    /// 本类不接触任何 Socket，只负责数据；由 Server 负责收发与生命周期。
+    /// </summary>
+    public sealed class RoomManager
     {
-        // 每个房间最多 4 名玩家（1 主机 + 3 客机）
-        public const int MAX_PLAYERS_PER_ROOM = 4;
+        public const int MaxPlayers = 8;
 
-        private Dictionary<int, Room> rooms = new Dictionary<int, Room>();
-        private object roomLock = new object();
-        private int nextPlayerId = 1;
+        private readonly object _lock = new object();
+        private readonly Dictionary<int, PlayerInfo> _players = new Dictionary<int, PlayerInfo>();
+        private readonly Dictionary<int, PlayerState> _states = new Dictionary<int, PlayerState>();
+        private readonly HashSet<string> _usernames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // 尝试将玩家加入指定房间。
-        // 返回 (是否成功, 分配的 playerId, 房间内已有玩家列表)
-        public (bool success, int playerId, string failReason, List<PlayerInfoData> existingPlayers)
-            TryJoinRoom(Client client, string username, int roomId)
+        /// <summary>尝试加入玩家。成功返回 true，否则 failReason 说明原因。</summary>
+        public bool TryAddPlayer(int playerId, string username, Vec3 position, out string failReason)
         {
-            lock (roomLock)
+            lock (_lock)
             {
-                if (!rooms.ContainsKey(roomId))
-                {
-                    rooms[roomId] = new Room(roomId);
-                    Console.WriteLine($"[房间] 房间 {roomId} 已自动创建");
-                }
+                failReason = null;
+                if (string.IsNullOrWhiteSpace(username)) { failReason = "用户名为空"; return false; }
+                if (_usernames.Contains(username)) { failReason = "用户名已被占用"; return false; }
+                if (_players.Count >= MaxPlayers) { failReason = "房间已满"; return false; }
 
-                Room room = rooms[roomId];
-
-                if (room.players.Count >= MAX_PLAYERS_PER_ROOM)
-                {
-                    return (false, 0, "房间已满", null);
-                }
-
-                // 检查用户名是否已存在于房间
-                if (room.players.Values.Any(p => p.username == username))
-                {
-                    return (false, 0, "用户名已被占用", null);
-                }
-
-                int pid = Interlocked.Increment(ref nextPlayerId);
-
-                var info = new PlayerInfoData
-                {
-                    playerId = pid,
-                    username = username,
-                    posX = 0f, posY = 0f, posZ = 0f
-                };
-
-                // 记录已有玩家（用于告诉新来者房间里还有谁）
-                var existingPlayers = room.players.Values.Select(p => new PlayerInfoData
-                {
-                    playerId = p.playerId,
-                    username = p.username,
-                    posX = p.posX, posY = p.posY, posZ = p.posZ
-                }).ToList();
-
-                room.players[pid] = info;
-                room.clientMap[pid] = client;
-
-                Console.WriteLine($"[房间] 玩家 [{username}](ID={pid}) 加入房间 {roomId}，当前人数: {room.players.Count}");
-
-                return (true, pid, null, existingPlayers);
-            }
-        }
-        // 玩家离开房间（主动离开或断线触发）。
-        // 返回离开的 playerId 和房间剩余玩家列表。
-        public (int playerId, List<int> remainingPlayerIds) RemoveFromAllRooms(Client client)
-        {
-            lock (roomLock)
-            {
-                foreach (var kvp in rooms)
-                {
-                    Room room = kvp.Value;
-                    var entry = room.clientMap.FirstOrDefault(e => e.Value == client);
-                    if (entry.Key != 0)
-                    {
-                        int pid = entry.Key;
-                        room.players.Remove(pid);
-                        room.clientMap.Remove(pid);
-
-                        var remaining = room.players.Keys.ToList();
-                        Console.WriteLine($"[房间] 玩家 ID={pid} 离开房间 {kvp.Key}，剩余人数: {remaining.Count}");
-
-                        // 房间空了则自动销毁
-                        if (room.players.Count == 0)
-                        {
-                            rooms.Remove(kvp.Key);
-                            Console.WriteLine($"[房间] 房间 {kvp.Key} 已自动销毁");
-                        }
-
-                        return (pid, remaining);
-                    }
-                }
-                return (0, new List<int>());
+                var info = new PlayerInfo { PlayerId = playerId, Username = username, Position = position };
+                _players[playerId] = info;
+                _states[playerId] = new PlayerState { PlayerId = playerId, Position = position, IsGrounded = true };
+                _usernames.Add(username);
+                return true;
             }
         }
 
-        // 获取客户端对应的 playerId（0 表示不在任何房间）。
-        public int GetPlayerId(Client client)
+        /// <summary>移除玩家。若玩家不存在返回 false。</summary>
+        public bool RemovePlayer(int playerId, out string username)
         {
-            lock (roomLock)
+            lock (_lock)
             {
-                foreach (var room in rooms.Values)
-                {
-                    var entry = room.clientMap.FirstOrDefault(e => e.Value == client);
-                    if (entry.Key != 0) return entry.Key;
-                }
-                return 0;
-            }
-        }
-        // 获取客户端所在房间内其他所有客户端。
-
-        public List<(Client client, int playerId)> GetOtherClientsInRoom(Client client)
-        {
-            lock (roomLock)
-            {
-                foreach (var room in rooms.Values)
-                {
-                    var entry = room.clientMap.FirstOrDefault(e => e.Value == client);
-                    if (entry.Key != 0)
-                    {
-                        return room.clientMap
-                            .Where(e => e.Key != entry.Key)
-                            .Select(e => (e.Value, e.Key))
-                            .ToList();
-                    }
-                }
-                return new List<(Client, int)>();
+                username = null;
+                if (!_players.TryGetValue(playerId, out var info)) return false;
+                username = info.Username;
+                _players.Remove(playerId);
+                _states.Remove(playerId);
+                _usernames.Remove(info.Username);
+                return true;
             }
         }
 
-        // 向房间内除发送者外的所有玩家广播消息。
-
-        public void BroadcastToRoom(Client sender, MainPack pack)
+        /// <summary>更新玩家最新状态（权威：Server 已覆写 playerId）。</summary>
+        public void UpdateState(PlayerState state)
         {
-            var others = GetOtherClientsInRoom(sender);
-            foreach (var (c, _) in others)
+            lock (_lock)
             {
-                try { c.Send(pack); }
-                catch (Exception e) { Console.WriteLine($"[广播异常] {e.Message}"); }
+                if (_states.ContainsKey(state.PlayerId))
+                    _states[state.PlayerId] = state;
             }
         }
 
-        // 向房间内所有玩家广播消息（包括发送者）。
-
-        public void BroadcastToRoomAll(Client sender, MainPack pack)
+        public List<PlayerInfo> GetPlayersExcept(int playerId)
         {
-            lock (roomLock)
+            lock (_lock)
             {
-                foreach (var room in rooms.Values)
-                {
-                    if (room.clientMap.ContainsValue(sender))
-                    {
-                        foreach (var c in room.clientMap.Values)
-                        {
-                            try { c.Send(pack); }
-                            catch (Exception e) { Console.WriteLine($"[广播异常] {e.Message}"); }
-                        }
-                        return;
-                    }
-                }
+                return _players.Values
+                    .Where(p => p.PlayerId != playerId)
+                    .Select(p => new PlayerInfo { PlayerId = p.PlayerId, Username = p.Username, Position = LatestPosition(p.PlayerId, p.Position) })
+                    .ToList();
             }
         }
 
-
-        // 向房间内指定玩家发送消息
-
-        public void SendToPlayer(int targetPlayerId, MainPack pack)
+        public PlayerInfo GetPlayer(int playerId)
         {
-            lock (roomLock)
+            lock (_lock)
             {
-                foreach (var room in rooms.Values)
-                {
-                    if (room.clientMap.TryGetValue(targetPlayerId, out var client))
-                    {
-                        try { client.Send(pack); }
-                        catch (Exception e) { Console.WriteLine($"[定向发送异常] {e.Message}"); }
-                        return;
-                    }
-                }
-            }
-        }
-
-
-        // 更新玩家在房间中记录的位置
-        public void UpdatePlayerPosition(int playerId, float x, float y, float z)
-        {
-            lock (roomLock)
-            {
-                foreach (var room in rooms.Values)
-                {
-                    if (room.players.ContainsKey(playerId))
-                    {
-                        room.players[playerId].posX = x;
-                        room.players[playerId].posY = y;
-                        room.players[playerId].posZ = z;
-                        return;
-                    }
-                }
-            }
-        }
-
-
-        // 获取玩家所在房间的 clientMap（用于 SyncController 获取广播定时器）
-
-        public Dictionary<int, Client> GetClientMapForClient(Client client)
-        {
-            lock (roomLock)
-            {
-                foreach (var room in rooms.Values)
-                {
-                    if (room.clientMap.ContainsValue(client))
-                        return room.clientMap;
-                }
+                if (_players.TryGetValue(playerId, out var p))
+                    return new PlayerInfo { PlayerId = p.PlayerId, Username = p.Username, Position = LatestPosition(p.PlayerId, p.Position) };
                 return null;
             }
         }
 
-
-        // 获取房间内所有玩家信息（用于首次同步）。
-
-        public List<PlayerInfoData> GetAllPlayersInRoom(Client client)
+        private Vec3 LatestPosition(int playerId, Vec3 fallback)
         {
-            lock (roomLock)
-            {
-                foreach (var room in rooms.Values)
-                {
-                    if (room.clientMap.ContainsValue(client))
-                        return room.players.Values.Select(p => new PlayerInfoData
-                        {
-                            playerId = p.playerId,
-                            username = p.username,
-                            posX = p.posX, posY = p.posY, posZ = p.posZ
-                        }).ToList();
-                }
-                return new List<PlayerInfoData>();
-            }
+            return _states.TryGetValue(playerId, out PlayerState s) ? s.Position : fallback;
         }
 
-        private class Room
+        public int Count
         {
-            public int roomId;
-            public Dictionary<int, PlayerInfoData> players = new Dictionary<int, PlayerInfoData>();
-            public Dictionary<int, Client> clientMap = new Dictionary<int, Client>();
+            get { lock (_lock) return _players.Count; }
+        }
 
-            public Room(int roomId) { this.roomId = roomId; }
+        public void Clear()
+        {
+            lock (_lock)
+            {
+                _players.Clear();
+                _states.Clear();
+                _usernames.Clear();
+            }
         }
     }
 }
