@@ -1,4 +1,4 @@
-using NetGame.Unity;
+//using NetGame.Unity;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,25 +36,25 @@ public class Sever_UI_CreatRoom : MonoBehaviour
             startGameButton.onClick.AddListener(OnStartGameClick);
         }
 
-        if (LobbyController.Instance != null)
-            LobbyController.Instance.OnStatus += ShowStatus;
+        //if (LobbyController.Instance != null)
+        //    LobbyController.Instance.OnStatus += ShowStatus;
 
-        if (ClientGameController.Instance != null)
-        {
-            ClientGameController.Instance.OnJoinedRoom += OnJoined;
-            ClientGameController.Instance.OnJoinFailed += ShowStatus;
-        }
+        //if (ClientGameController.Instance != null)
+        //{
+        //    ClientGameController.Instance.OnJoinedRoom += OnJoined;
+        //    ClientGameController.Instance.OnJoinFailed += ShowStatus;
+        //}
 
-        // 展示本机局域网地址，方便告诉其他玩家
-        if (statusText != null)
-            statusText.text = "本机局域网地址：" + NetGame.ServerSide.Server.GetLocalIPv4() +
-                              (portInputField != null ? ":" + portInputField.text : "");
+        //// 展示本机局域网地址，方便告诉其他玩家
+        //if (statusText != null)
+        //    statusText.text = "本机局域网地址：" + NetGame.ServerSide.Server.GetLocalIPv4() +
+        //                      (portInputField != null ? ":" + portInputField.text : "");
     }
 
     private void OnDestroy()
     {
-        if (LobbyController.Instance != null)
-            LobbyController.Instance.OnStatus -= ShowStatus;
+        //if (LobbyController.Instance != null)
+        //    LobbyController.Instance.OnStatus -= ShowStatus;
     }
 
     private void OnCreatRoomClick()
@@ -67,16 +67,16 @@ public class Sever_UI_CreatRoom : MonoBehaviour
         if (string.IsNullOrEmpty(username))
             username = "Host_" + Random.Range(100, 999);
 
-        if (LobbyController.Instance != null)
-            LobbyController.Instance.StartHost(username, port);
-        else
-            ShowStatus("缺少 LobbyController");
+        //if (LobbyController.Instance != null)
+        //    LobbyController.Instance.StartHost(username, port);
+        //else
+        //    ShowStatus("缺少 LobbyController");
     }
 
     private void OnStartGameClick()
     {
-        if (ClientGameController.Instance != null)
-            ClientGameController.Instance.SendGameStart();
+        //if (ClientGameController.Instance != null)
+        //    ClientGameController.Instance.SendGameStart();
     }
 
     private void OnJoined(int playerId, string username)

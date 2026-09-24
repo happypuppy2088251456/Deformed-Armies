@@ -1,4 +1,4 @@
-using NetGame.Unity;
+//using NetGame.Unity;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,21 +30,21 @@ public class Client_UI_Connection : MonoBehaviour
 
         if (stateText != null) stateText.text = "";
 
-        if (LobbyController.Instance != null)
-            LobbyController.Instance.OnStatus += ShowState;
+        //if (LobbyController.Instance != null)
+        //    LobbyController.Instance.OnStatus += ShowState;
 
-        if (ClientGameController.Instance != null)
-        {
-            ClientGameController.Instance.OnJoinedRoom += OnJoined;
-            ClientGameController.Instance.OnJoinFailed += ShowState;
-            ClientGameController.Instance.OnLeftRoom += OnLeft;
-        }
+        //if (ClientGameController.Instance != null)
+        //{
+        //    ClientGameController.Instance.OnJoinedRoom += OnJoined;
+        //    ClientGameController.Instance.OnJoinFailed += ShowState;
+        //    ClientGameController.Instance.OnLeftRoom += OnLeft;
+       //}
     }
 
     private void OnDestroy()
     {
-        if (LobbyController.Instance != null)
-            LobbyController.Instance.OnStatus -= ShowState;
+        //if (LobbyController.Instance != null)
+        //    LobbyController.Instance.OnStatus -= ShowState;
     }
 
     private void OnConfirmClick()
@@ -63,10 +63,10 @@ public class Client_UI_Connection : MonoBehaviour
         ShowState("正在连接 " + ip + ":" + port + " ...");
         if (confirmButton != null) confirmButton.interactable = false;
 
-        if (LobbyController.Instance != null)
-            LobbyController.Instance.StartClient(ip, port, username);
-        else
-            ShowState("缺少 LobbyController");
+        //if (LobbyController.Instance != null)
+        //    LobbyController.Instance.StartClient(ip, port, username);
+        //else
+        //    ShowState("缺少 LobbyController");
     }
 
     private void OnJoined(int playerId, string username)
