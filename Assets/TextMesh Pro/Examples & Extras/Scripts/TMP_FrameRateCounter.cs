@@ -20,7 +20,7 @@ namespace TMPro.Examples
 
         private TextMeshPro m_TextMeshPro;
         private Transform m_frameCounter_transform;
-        private Camera m_camera;
+        private Camera m_PlayerCamera;
 
         private FpsCounterAnchorPositions last_AnchorPosition;
 
@@ -29,7 +29,7 @@ namespace TMPro.Examples
             if (!enabled)
                 return;
 
-            m_camera = Camera.main;
+            m_PlayerCamera = Camera.main;
             Application.targetFrameRate = 9999;
 
             GameObject frameCounter = new GameObject("Frame Counter");
@@ -40,7 +40,7 @@ namespace TMPro.Examples
 
 
             m_frameCounter_transform = frameCounter.transform;
-            m_frameCounter_transform.SetParent(m_camera.transform);
+            m_frameCounter_transform.SetParent(m_PlayerCamera.transform);
             m_frameCounter_transform.localRotation = Quaternion.identity;
 
             m_TextMeshPro.enableWordWrapping = false;
@@ -111,22 +111,22 @@ namespace TMPro.Examples
                 case FpsCounterAnchorPositions.TopLeft:
                     m_TextMeshPro.alignment = TextAlignmentOptions.TopLeft;
                     m_TextMeshPro.rectTransform.pivot = new Vector2(0, 1);
-                    m_frameCounter_transform.position = m_camera.ViewportToWorldPoint(new Vector3(0, 1, 100.0f));
+                    m_frameCounter_transform.position = m_PlayerCamera.ViewportToWorldPoint(new Vector3(0, 1, 100.0f));
                     break;
                 case FpsCounterAnchorPositions.BottomLeft:
                     m_TextMeshPro.alignment = TextAlignmentOptions.BottomLeft;
                     m_TextMeshPro.rectTransform.pivot = new Vector2(0, 0);
-                    m_frameCounter_transform.position = m_camera.ViewportToWorldPoint(new Vector3(0, 0, 100.0f));
+                    m_frameCounter_transform.position = m_PlayerCamera.ViewportToWorldPoint(new Vector3(0, 0, 100.0f));
                     break;
                 case FpsCounterAnchorPositions.TopRight:
                     m_TextMeshPro.alignment = TextAlignmentOptions.TopRight;
                     m_TextMeshPro.rectTransform.pivot = new Vector2(1, 1);
-                    m_frameCounter_transform.position = m_camera.ViewportToWorldPoint(new Vector3(1, 1, 100.0f));
+                    m_frameCounter_transform.position = m_PlayerCamera.ViewportToWorldPoint(new Vector3(1, 1, 100.0f));
                     break;
                 case FpsCounterAnchorPositions.BottomRight:
                     m_TextMeshPro.alignment = TextAlignmentOptions.BottomRight;
                     m_TextMeshPro.rectTransform.pivot = new Vector2(1, 0);
-                    m_frameCounter_transform.position = m_camera.ViewportToWorldPoint(new Vector3(1, 0, 100.0f));
+                    m_frameCounter_transform.position = m_PlayerCamera.ViewportToWorldPoint(new Vector3(1, 0, 100.0f));
                     break;
             }
         }

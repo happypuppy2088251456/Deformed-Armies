@@ -17,7 +17,7 @@ namespace TMPro.Examples
         private TextMeshPro m_TextMeshPro;
         private TextContainer m_textContainer;
         private Transform m_frameCounter_transform;
-        private Camera m_camera;
+        private Camera m_PlayerCamera;
 
         //private FpsCounterAnchorPositions last_AnchorPosition;
 
@@ -26,11 +26,11 @@ namespace TMPro.Examples
             if (!enabled)
                 return;
 
-            m_camera = Camera.main;
+            m_PlayerCamera = Camera.main;
 
             GameObject frameCounter = new GameObject("Frame Counter");
             m_frameCounter_transform = frameCounter.transform;
-            m_frameCounter_transform.parent = m_camera.transform;
+            m_frameCounter_transform.parent = m_PlayerCamera.transform;
             m_frameCounter_transform.localRotation = Quaternion.identity;
 
 
@@ -61,22 +61,22 @@ namespace TMPro.Examples
                 case FpsCounterAnchorPositions.TopLeft:
                     //m_TextMeshPro.anchor = AnchorPositions.TopLeft;
                     m_textContainer.anchorPosition = TextContainerAnchors.TopLeft;
-                    m_frameCounter_transform.position = m_camera.ViewportToWorldPoint(new Vector3(0, 1, 100.0f));
+                    m_frameCounter_transform.position = m_PlayerCamera.ViewportToWorldPoint(new Vector3(0, 1, 100.0f));
                     break;
                 case FpsCounterAnchorPositions.BottomLeft:
                     //m_TextMeshPro.anchor = AnchorPositions.BottomLeft;
                     m_textContainer.anchorPosition = TextContainerAnchors.BottomLeft;
-                    m_frameCounter_transform.position = m_camera.ViewportToWorldPoint(new Vector3(0, 0, 100.0f));
+                    m_frameCounter_transform.position = m_PlayerCamera.ViewportToWorldPoint(new Vector3(0, 0, 100.0f));
                     break;
                 case FpsCounterAnchorPositions.TopRight:
                     //m_TextMeshPro.anchor = AnchorPositions.TopRight;
                     m_textContainer.anchorPosition = TextContainerAnchors.TopRight;
-                    m_frameCounter_transform.position = m_camera.ViewportToWorldPoint(new Vector3(1, 1, 100.0f));
+                    m_frameCounter_transform.position = m_PlayerCamera.ViewportToWorldPoint(new Vector3(1, 1, 100.0f));
                     break;
                 case FpsCounterAnchorPositions.BottomRight:
                     //m_TextMeshPro.anchor = AnchorPositions.BottomRight;
                     m_textContainer.anchorPosition = TextContainerAnchors.BottomRight;
-                    m_frameCounter_transform.position = m_camera.ViewportToWorldPoint(new Vector3(1, 0, 100.0f));
+                    m_frameCounter_transform.position = m_PlayerCamera.ViewportToWorldPoint(new Vector3(1, 0, 100.0f));
                     break;
             }
         }

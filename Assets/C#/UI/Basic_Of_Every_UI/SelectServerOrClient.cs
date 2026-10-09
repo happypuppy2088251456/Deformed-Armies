@@ -39,4 +39,8 @@ public class SelectServerOrClient : MonoBehaviour
         target.SetActive(true);
         gameObject.SetActive(false);
     }
+    public void TestClick()
+    {
+        Debug.Log("按钮被点了");
+    }
 }

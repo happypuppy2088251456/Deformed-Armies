@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UI_Restart : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class UI_Restart : MonoBehaviour
 
         foreach (var p in otherPannels)
             if (p != null) p.SetActive(false);
+        
+        
+            Debug.Log("脚本启动了");
+        
     }
 
     // ---------- 编辑器菜单（Inspector 齿轮里出现） ----------
@@ -55,5 +60,23 @@ public class UI_Restart : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
             otherPannels.Add(transform.GetChild(i).gameObject);
         Debug.Log($"[UI_Restart] 已收集 {otherPannels.Count} 个子物体");
+
+    }
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("鼠标左键被按下了");   // 先加这句
+
+            PointerEventData data = new PointerEventData(EventSystem.current);
+            data.position = Input.mousePosition;
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(data, results);
+
+            Debug.Log("命中数量: " + results.Count);
+            foreach (var r in results)
+                Debug.Log("命中: " + r.gameObject.name);
+        }
     }
 }

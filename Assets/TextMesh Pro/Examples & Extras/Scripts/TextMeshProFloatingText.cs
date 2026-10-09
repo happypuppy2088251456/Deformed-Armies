@@ -15,7 +15,7 @@ namespace TMPro.Examples
 
         private Transform m_transform;
         private Transform m_floatingText_Transform;
-        private Transform m_cameraTransform;
+        private Transform m_PlayerCameraTransform;
 
         Vector3 lastPOS = Vector3.zero;
         Quaternion lastRotation = Quaternion.identity;
@@ -43,7 +43,7 @@ namespace TMPro.Examples
             //m_floatingText_Transform = m_floatingText.transform;
             //m_floatingText_Transform.position = m_transform.position + new Vector3(0, 15f, 0);
 
-            m_cameraTransform = Camera.main.transform;
+            m_PlayerCameraTransform = Camera.main.transform;
         }
 
         void Start()
@@ -144,10 +144,10 @@ namespace TMPro.Examples
                 m_floatingText_Transform.position += new Vector3(0, starting_Count * Time.deltaTime, 0);
 
                 // Align floating text perpendicular to Camera.
-                if (!lastPOS.Compare(m_cameraTransform.position, 1000) || !lastRotation.Compare(m_cameraTransform.rotation, 1000))
+                if (!lastPOS.Compare(m_PlayerCameraTransform.position, 1000) || !lastRotation.Compare(m_PlayerCameraTransform.rotation, 1000))
                 {
-                    lastPOS = m_cameraTransform.position;
-                    lastRotation = m_cameraTransform.rotation;
+                    lastPOS = m_PlayerCameraTransform.position;
+                    lastRotation = m_PlayerCameraTransform.rotation;
                     m_floatingText_Transform.rotation = lastRotation;
                     Vector3 dir = m_transform.position - lastPOS;
                     m_transform.forward = new Vector3(dir.x, 0, dir.z);
@@ -199,10 +199,10 @@ namespace TMPro.Examples
                 m_floatingText_Transform.position += new Vector3(0, starting_Count * Time.deltaTime, 0);
 
                 // Align floating text perpendicular to Camera.
-                if (!lastPOS.Compare(m_cameraTransform.position, 1000) || !lastRotation.Compare(m_cameraTransform.rotation, 1000))
+                if (!lastPOS.Compare(m_PlayerCameraTransform.position, 1000) || !lastRotation.Compare(m_PlayerCameraTransform.rotation, 1000))
                 {
-                    lastPOS = m_cameraTransform.position;
-                    lastRotation = m_cameraTransform.rotation;
+                    lastPOS = m_PlayerCameraTransform.position;
+                    lastRotation = m_PlayerCameraTransform.rotation;
                     m_floatingText_Transform.rotation = lastRotation;
                     Vector3 dir = m_transform.position - lastPOS;
                     m_transform.forward = new Vector3(dir.x, 0, dir.z);

@@ -14,14 +14,14 @@ public class playerCamera : MonoBehaviour
         if (pm.Aim) targetCameraViewField = 50f;
         else targetCameraViewField = 60f;
         currentCameraViewField = Mathf.Lerp(currentCameraViewField, targetCameraViewField, 5f * Time.deltaTime);
-        camera.fieldOfView = currentCameraViewField;
+        PlayerCamera.fieldOfView = currentCameraViewField;
     }
 
     [Header("Camera Settings")]
     
     [SerializeField] private float mouseSensitivity = 300f;
     private Animator animator;
-    public Camera camera; 
+    public Camera PlayerCamera; 
     private void GatherInput()
     {
         lookInput = new Vector2(
@@ -46,17 +46,17 @@ public class playerCamera : MonoBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -60f, 60f);
 
-        float AimDegree = 0.5f+ camera.transform.rotation.x;
+        float AimDegree = 0.5f+ PlayerCamera.transform.rotation.x;
         if (AimDegree < 0) AimDegree = 0;
         if(AimDegree > 1f) AimDegree = 1f;
         animator.SetFloat("AimDegree", AimDegree);
 
         // 应用旋转：相机自身只负责上下旋转，父物体（玩家模型）负责左右旋转
-        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        PlayerCameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
     }
 
-    public Transform cameraTransform;
+    public Transform PlayerCameraTransform;
     private float xRotation = 0f;
     private Vector2 lookInput;
     private bool isLocalPlayer = true;
@@ -64,7 +64,7 @@ public class playerCamera : MonoBehaviour
     private void Awake()
     {
         // 查找子物体中的实际相机节点
-        //cameraTransform = transform.Find("Main_Camera");
+        //PlayerCameraTransform = transform.Find("Main_Camera");
         animator = GetComponent<Animator>();
     }
     private void Update()
@@ -115,7 +115,7 @@ public class playerCamera : MonoBehaviour
     /// </summary>
     public Vector3 GetAimDirection()
     {
-        return cameraTransform.forward;
+        return PlayerCameraTransform.forward;
     }
 
     // --- 供外部（如网络管理器）覆写本地状态的接口 ---
@@ -138,7 +138,7 @@ public class playerCamera : MonoBehaviour
     {
         transform.eulerAngles = new Vector3(0f, yaw, 0f);
         xRotation = pitch;
-        cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        PlayerCameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
 
     /// <summary>
@@ -147,8 +147,8 @@ public class playerCamera : MonoBehaviour
     public void SetPitch(float pitch)
     {
         xRotation = pitch;
-        if (cameraTransform != null)
-            cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        if (PlayerCameraTransform != null)
+            PlayerCameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
     }
 
     /// <summary>

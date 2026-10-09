@@ -9,7 +9,7 @@ namespace TMPro.Examples
     {
         public enum CameraModes { Follow, Isometric, Free }
 
-        private Transform cameraTransform;
+        private Transform PlayerCameraTransform;
         private Transform dummyTarget;
 
         public Transform CameraTarget;
@@ -60,7 +60,7 @@ namespace TMPro.Examples
             if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
                 Input.simulateMouseWithTouches = false;
 
-            cameraTransform = transform;
+            PlayerCameraTransform = transform;
             previousSmoothing = MovementSmoothing;
         }
 
@@ -101,20 +101,20 @@ namespace TMPro.Examples
                 if (MovementSmoothing == true)
                 {
                     // Using Smoothing
-                    cameraTransform.position = Vector3.SmoothDamp(cameraTransform.position, desiredPosition, ref currentVelocity, MovementSmoothingValue * Time.fixedDeltaTime);
-                    //cameraTransform.position = Vector3.Lerp(cameraTransform.position, desiredPosition, Time.deltaTime * 5.0f);
+                    PlayerCameraTransform.position = Vector3.SmoothDamp(PlayerCameraTransform.position, desiredPosition, ref currentVelocity, MovementSmoothingValue * Time.fixedDeltaTime);
+                    //PlayerCameraTransform.position = Vector3.Lerp(PlayerCameraTransform.position, desiredPosition, Time.deltaTime * 5.0f);
                 }
                 else
                 {
                     // Not using Smoothing
-                    cameraTransform.position = desiredPosition;
+                    PlayerCameraTransform.position = desiredPosition;
                 }
 
                 if (RotationSmoothing == true)
-                    cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, Quaternion.LookRotation(CameraTarget.position - cameraTransform.position), RotationSmoothingValue * Time.deltaTime);
+                    PlayerCameraTransform.rotation = Quaternion.Lerp(PlayerCameraTransform.rotation, Quaternion.LookRotation(CameraTarget.position - PlayerCameraTransform.position), RotationSmoothingValue * Time.deltaTime);
                 else
                 {
-                    cameraTransform.LookAt(CameraTarget);
+                    PlayerCameraTransform.LookAt(CameraTarget);
                 }
 
             }
@@ -146,7 +146,7 @@ namespace TMPro.Examples
                     MovementSmoothing = !MovementSmoothing;
 
 
-                // Check for right mouse button to change camera follow and elevation angle
+                // Check for right mouse button to change PlayerCamera follow and elevation angle
                 if (Input.GetMouseButton(1))
                 {
                     mouseY = Input.GetAxis("Mouse Y");
@@ -245,7 +245,7 @@ namespace TMPro.Examples
                     mouseY = Input.GetAxis("Mouse Y");
                     mouseX = Input.GetAxis("Mouse X");
 
-                    moveVector = cameraTransform.TransformDirection(mouseX, mouseY, 0);
+                    moveVector = PlayerCameraTransform.TransformDirection(mouseX, mouseY, 0);
 
                     dummyTarget.Translate(-moveVector, Space.World);
 

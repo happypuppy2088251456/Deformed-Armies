@@ -110,14 +110,14 @@ public class UIManager : MonoBehaviour
 
     // 退出游戏
     public void QuitGame()
-   {
-        #if UNITY_EDITOR
-            // 在编辑器里：停止播放
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
+    {
+#if UNITY_EDITOR
+        // 在编辑器里：停止播放
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
             // 打包后：直接关闭程序
             Application.Quit();
-        #endif
+#endif
     }
     #endregion
 
