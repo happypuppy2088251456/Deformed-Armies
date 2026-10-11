@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI Txt_BGMVolume;
 
     [Header("UI引用 - 联机菜单")]
+
     public GameObject MainMenu_Panel;
     public GameObject Panel_HostOrClie;
     public GameObject Panel_Host;
@@ -30,7 +31,7 @@ public class UIManager : MonoBehaviour
 
     // 分辨率列表
     private List<Resolution> resList;
-
+    
     void Start()
     {
         SettingPanel.SetActive(false);
