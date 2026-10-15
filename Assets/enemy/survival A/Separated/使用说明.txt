@@ -1,0 +1,16 @@
+分离完成：Survivor A 背部武器
+
+Survivor_A_Separated.fbx：保留人物骨骼的完整模型，其中 Survivor_Body 是去掉背枪的人物，Survivor_Gun 是独立的枪。枪在这份文件中保留原来的背部位置，尚未挂到手上。
+Survivor_A_Gun.fbx：单独的枪，原点放在枪的包围盒中心，可单独拖进场景。
+
+Unity 中的检查方式：
+1. 在 Project 找到本目录。
+2. 把 Survivor_A_Separated.fbx 拖到 Hierarchy。
+3. 展开实例并选中 Survivor_Gun，可以单独移动，或取消勾选隐藏它，观察去枪后的人物。
+4. 原来的场景角色没有自动替换，要观察分离效果请使用这个新文件。
+
+人物的 Humanoid Avatar 已通过 Unity 2022.3.62f2c1 导入验证；69 根骨骼保留。枪已去掉蒙皮，适合后续作为刚性武器挂到手上。
+沿用上一级目录的原材质与贴图，不要删除那些文件。原 FBX、原 .meta、动画、控制器和场景没有改动。
+这次只做拆分，没有设置手部持枪、射击逻辑或动画控制器。
+
+可编辑的 Blender 副本位于：D:\分组作业\.asset-work\survivor-weapon-split\Survivor_A_Separated.blend

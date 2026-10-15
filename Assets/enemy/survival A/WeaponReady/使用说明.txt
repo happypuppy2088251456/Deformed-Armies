@@ -1,0 +1,33 @@
+持枪野怪使用说明
+
+主场景已经接好：打开 Assets/Client260906.unity，在 Hierarchy 展开 enemy，下面的 Model 就是持枪野怪。enemy 保留原来的位置和胶囊碰撞体；Model 已按胶囊高度调整大小。旧的独立 Survivor A Lusth (1) 已停用，作为参考保留。
+
+Enemy_Armed.prefab 是后续做野怪时使用的预制体，可拖入其他关卡。结构是 enemy（碰撞和未来的 AI）→ Model（Animator、模型、持枪组件）。Model 不包含演示脚本，关闭了 Root Motion；运行后默认播放持枪待机，不会自行追击或射击。
+
+手动检查各个动作：先保存当前场景，再打开 Survivor_Weapon_Preview.unity，点击 Unity 顶部 Play。左侧点击“瞄准待机”“射击”“换弹”等按钮，也可以勾选自动轮播。这个独立预览场景不需要连接服务器。停止运行后，再打开 Client260906.unity 返回主场景。
+
+Survivor_A_Armed.prefab 保留为演示用的单独模型。它包含 Survivor Animation Preview，后续制作野怪请优先使用 Enemy_Armed.prefab，避免演示脚本抢占动画控制。
+
+已完成：
+- 右手握枪，枪随右手骨骼移动和旋转。
+- 左手在待机、射击、移动时保持支撑姿势。
+- 换弹、受击、死亡允许左手按原动画活动，枪仍跟右手。
+- 16 个现有动作的 Humanoid 副本和切换预览，不含投掷/手雷。
+
+当前完成的是持枪和动画表现，没有 AI、子弹、伤害或特效，没有加入投掷手雷。原始人物和原动画文件未修改；Client260906 场景只接入了 Model 并停用了旧独立模型。
+
+后续采用简单决策树即可，不需要复杂 AI 框架：死亡 → 播放死亡并停止行动；需要换弹 → 换弹；目标在射程内 → 射击；看到目标但距离远 → 追击；没有目标 → 待机。先做这几个条件，巡逻、躲避等可以以后再加。
+
+给后续写 AI 的同学：
+- AI 和位移逻辑挂在 enemy 根对象，获取子对象 Model 的 Animator。
+- 只在决策改变时调用 Animator.CrossFadeInFixedTime(状态名, 0.15f, 0, 0f)，不要每帧从头重播。
+- 状态名可用 rifle aiming idle（待机）、rifle run（追击跑步）、firing（射击）、reloading（换弹）、hit（受击）、dying（死亡）。动作本身不产生伤害。
+- 换弹和受击播放完后，由决策逻辑选择下一动作；死亡后不要再切回移动或射击。
+- Animator 和 SurvivorWeaponAttachment 保留在同一个 Model 上；保留 Base Layer 的 IK Pass 和关闭的 Root Motion。
+- reloading、hit、dying 会释放左手支撑。修改这些状态名时，也需要同步修改持枪组件的 Free Left Hand States。
+
+请保留上一级目录中的原材质/贴图和 Separated 文件夹，新预制体会引用它们。
+
+验证：Unity 2022.3.62f2c1，原持枪模型已在运行模式检查496个采样姿势、6次跨动作切换，并查看16个动作的实际运行画面。接入后的 Enemy_Armed 另在运行模式检查了6个主要动作、72个姿势和6次切换，枪械与左手跟随正常，根对象没有被动画带动。主场景已核对原 enemy 碰撞体及引用保持一致，新预制体没有演示脚本，模型、骨骼、枪械和材质引用完整。
+
+场景接入前的备份在项目外：D:\分组作业\.asset-work\enemy-prototype-integration\backup\Client260906.unity。所有工作仅保存到本地，没有推送到云端。
