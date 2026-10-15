@@ -1,227 +1,360 @@
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
+using TMPro;
+using UIWrapper;
+
 public class UIManager : MonoBehaviour
 {
-    [Header("UI引用 - 设置面板")]
-    public Button Btn_Setting;
-    public GameObject SettingPanel;
-    public Button Btn_Close;
-    public TMP_Dropdown Dropdown_Resolution;
-    public Toggle Toggle_FullScreen;
-    public TMP_Dropdown Dropdown_Quality;
-    public Slider Slider_MasterVolume;
-    public TextMeshProUGUI Txt_MasterVolume;
-    public Slider Slider_BGMVolume;
-    public Slider Slider_SFXVolume;
-    public TextMeshProUGUI Txt_SFXVolume;
-    public TextMeshProUGUI Txt_BGMVolume;
+    #region 面板绑定
+    [UIBind("Canvas/GameMenuGroup/MainMenu_Panel")]
+    private UIPanel MainMenu_Panel;
 
-    [Header("UI引用 - 联机菜单")]
+    [UIBind("Canvas/GameMenuGroup/Panel_HostOrClient")]
+    private UIPanel Panel_HostOrClient;
 
-    public GameObject MainMenu_Panel;
-    public GameObject Panel_HostOrClie;
-    public GameObject Panel_Host;
-    public GameObject Panel_Client;
+    [UIBind("Canvas/GameMenuGroup/Panel_Host")]
+    private UIPanel Panel_Host;
 
-    // 分辨率列表
-    private List<Resolution> resList;
-    
-    void Start()
+    [UIBind("Canvas/GameMenuGroup/Panel_Client")]
+    private UIPanel Panel_Client;
+
+    [UIBind("Canvas/SettingGroup/SettingPanel")]
+    private UIPanel SettingPanel;
+    #endregion
+
+    #region 按钮绑定
+    [UIBind("Canvas/GameMenuGroup/MainMenu_Panel/Btn_EnterGame")]
+    private UIButton Btn_EnterGame;
+
+    [UIBind("Canvas/GameMenuGroup/MainMenu_Panel/Btn_Setting")]
+    private UIButton Btn_Setting;
+
+    [UIBind("Canvas/GameMenuGroup/MainMenu_Panel/Btn_Quit")]
+    private UIButton Btn_Quit;
+
+    [UIBind("Canvas/SettingGroup/SettingPanel/Btn_Close")]
+    private UIButton Btn_Close;
+
+    [UIBind("Canvas/GameMenuGroup/Panel_HostOrClient/Btn_Host")]
+    private UIButton Btn_Host;
+
+    [UIBind("Canvas/GameMenuGroup/Panel_HostOrClient/Btn_Client")]
+    private UIButton Btn_Client;
+
+    [UIBind("Canvas/GameMenuGroup/Panel_HostOrClient/Btn_Back")]
+    private UIButton Btn_Back_HostOrClient;
+
+    [UIBind("Canvas/GameMenuGroup/Panel_Host/Btn_CreateRoom")]
+    private UIButton Btn_CreateRoom;
+
+    [UIBind("Canvas/GameMenuGroup/Panel_Host/Btn_Back")]
+    private UIButton Btn_Back_Host;
+
+    [UIBind("Canvas/GameMenuGroup/Panel_Client/Btn_Back")]
+    private UIButton Btn_Back_Client;
+    #endregion
+
+    #region 设置面板控件绑定
+    [UIBind("Canvas/SettingGroup/SettingPanel/Dropdown_Resolution")]
+    private UIDropdown Dropdown_Resolution;
+
+    [UIBind("Canvas/SettingGroup/SettingPanel/Dropdown_Quality")]
+    private UIDropdown Dropdown_Quality;
+
+    [UIBind("Canvas/SettingGroup/SettingPanel/Slider_MasterVolume",
+        "Canvas/SettingGroup/SettingPanel/Txt_MasterVolume",
+        "Master Volume: {0:F2}")]
+    private UISlider Slider_MasterVolume;
+
+    [UIBind("Canvas/SettingGroup/SettingPanel/Slider_BGMVolume",
+        "Canvas/SettingGroup/SettingPanel/Txt_BGMVolume",
+        "BGM Volume: {0:F2}")]
+    private UISlider Slider_BGMVolume;
+
+    [UIBind("Canvas/SettingGroup/SettingPanel/Slider_SFXVolume",
+        "Canvas/SettingGroup/SettingPanel/Txt_SFXVolume",
+        "SFX Volume: {0:F2}")]
+    private UISlider Slider_SFXVolume;
+    #endregion
+
+    // 全局控件注册表字典
+    private readonly Dictionary<string, UIElement> _uiRegistry = new Dictionary<string, UIElement>();
+
+    // 预设的 4 种分辨率
+    private struct CustomResolution
     {
-        SettingPanel.SetActive(false);
-        // 初始状态：打开主菜单，关闭其他联机面板
-        MainMenu_Panel.SetActive(true);
-        Panel_HostOrClie.SetActive(false);
-        Panel_Host.SetActive(false);
-        Panel_Client.SetActive(false);
+        public int width;
+        public int height;
+        public CustomResolution(int w, int h)
+        {
+            width = w;
+            height = h;
+        }
+    }
+
+    private readonly List<CustomResolution> _targetResolutions = new List<CustomResolution>
+    {
+        new CustomResolution(1920, 1080),
+        new CustomResolution(2560, 1440),
+        new CustomResolution(3840, 2160),
+        new CustomResolution(1366, 768)
+    };
+
+    private void Awake()
+    {
+        AutoBindUI();
+    }
+
+    private void Start()
+    {
+        SettingPanel?.Hide();
+        MainMenu_Panel?.Show();
+        Panel_HostOrClient?.Hide();
+        Panel_Host?.Hide();
+        Panel_Client?.Hide();
+
+        RegisterEvents();
 
         InitResolutionDropdown();
-        InitFullScreenToggle();
-        InitVolumeSlider();
         InitQualityDropdown();
         LoadSettings();
     }
 
-    #region 设置面板开关
-    public void OpenSettingPanel()
+    #region 自动查找、实例化包装类与同步写入字典
+    private void AutoBindUI()
     {
-        SettingPanel.SetActive(true);
+        FieldInfo[] fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+        foreach (var field in fields)
+        {
+            var attr = field.GetCustomAttribute<UIBindAttribute>();
+            if (attr == null) continue;
+
+            GameObject go = GameObject.Find(attr.Path);
+            if (go == null)
+            {
+                Debug.LogError($"[UIManager] 找不到 UI 路径物体：{attr.Path}，请检查 Hierarchy 名称与路径是否一致！");
+                continue;
+            }
+
+            UIElement elementInstance = null;
+            Type fieldType = field.FieldType;
+
+            if (fieldType == typeof(UIPanel))
+            {
+                elementInstance = new UIPanel(go);
+            }
+            else if (fieldType == typeof(UIButton))
+            {
+                elementInstance = new UIButton(go);
+            }
+            else if (fieldType == typeof(UIToggle))
+            {
+                elementInstance = new UIToggle(go);
+            }
+            else if (fieldType == typeof(UIDropdown))
+            {
+                elementInstance = new UIDropdown(go);
+            }
+            else if (fieldType == typeof(UIInputField))
+            {
+                elementInstance = new UIInputField(go);
+            }
+            else if (fieldType == typeof(UISlider))
+            {
+                TextMeshProUGUI textComp = null;
+                if (!string.IsNullOrEmpty(attr.AssociatedTextPath))
+                {
+                    GameObject txtGo = GameObject.Find(attr.AssociatedTextPath);
+                    if (txtGo != null)
+                        textComp = txtGo.GetComponent<TextMeshProUGUI>();
+                }
+                elementInstance = new UISlider(go, textComp, attr.TextFormat);
+            }
+
+            if (elementInstance != null)
+            {
+                field.SetValue(this, elementInstance);
+                _uiRegistry[field.Name] = elementInstance;
+            }
+        }
     }
-    public void CloseSettingPanel()
+
+    public T GetUI<T>(string elementName) where T : UIElement
     {
-        SettingPanel.SetActive(false);
-        SaveSettings();
+        if (_uiRegistry.TryGetValue(elementName, out var element))
+        {
+            return element as T;
+        }
+        Debug.LogWarning($"[UIManager] 未在字典中找到控件：{elementName}");
+        return null;
     }
     #endregion
 
-    #region 页面跳转逻辑
-    // 主菜单 → 进入游戏页面（Panel_HostOrClie）
+    #region 注册事件
+    private void RegisterEvents()
+    {
+        Btn_EnterGame?.OnClick(OpenHostOrClientPanel);
+        Btn_Setting?.OnClick(OpenSettingPanel);
+        Btn_Close?.OnClick(CloseSettingPanel);
+        Btn_Quit?.OnClick(QuitGame);
+
+        Btn_Host?.OnClick(OpenHostPanel);
+        Btn_Client?.OnClick(OpenClientPanel);
+        Btn_Back_HostOrClient?.OnClick(BackToMainMenu);
+
+        Btn_Back_Host?.OnClick(BackToHostOrClientFromHost);
+        Btn_Back_Client?.OnClick(BackToHostOrClientFromClient);
+
+        Btn_CreateRoom?.OnClick(() => Debug.Log("点击创建房间"));
+
+        Slider_MasterVolume?.OnValueChanged(val => AudioListener.volume = val);
+        Slider_BGMVolume?.OnValueChanged(val => { });
+        Slider_SFXVolume?.OnValueChanged(val => { });
+
+        Dropdown_Resolution?.OnValueChanged(OnResolutionChange);
+        Dropdown_Quality?.OnValueChanged(OnQualityChange);
+    }
+    #endregion
+
+    #region 界面控制与逻辑
+    public void OpenSettingPanel() => SettingPanel?.Show();
+
+    public void CloseSettingPanel()
+    {
+        SettingPanel?.Hide();
+        SaveSettings();
+    }
+
     public void OpenHostOrClientPanel()
     {
-        MainMenu_Panel.SetActive(false);
-        Panel_HostOrClie.SetActive(true);
+        MainMenu_Panel?.Hide();
+        Panel_HostOrClient?.Show();
     }
 
-    // HostOrClient页面 → 主机页面
     public void OpenHostPanel()
     {
-        Panel_HostOrClie.SetActive(false);
-        Panel_Host.SetActive(true);
+        Panel_HostOrClient?.Hide();
+        Panel_Host?.Show();
     }
 
-    // HostOrClient页面 → 客户端页面
     public void OpenClientPanel()
     {
-        Panel_HostOrClie.SetActive(false);
-        Panel_Client.SetActive(true);
+        Panel_HostOrClient?.Hide();
+        Panel_Client?.Show();
     }
 
-    // 从HostOrClient返回主菜单
     public void BackToMainMenu()
     {
-        Panel_HostOrClie.SetActive(false);
-        MainMenu_Panel.SetActive(true);
+        Panel_HostOrClient?.Hide();
+        MainMenu_Panel?.Show();
     }
 
-    // 主机页面 返回 HostOrClient
     public void BackToHostOrClientFromHost()
     {
-        Panel_Host.SetActive(false);
-        Panel_HostOrClie.SetActive(true);
+        Panel_Host?.Hide();
+        Panel_HostOrClient?.Show();
     }
 
-    // 客户端页面 返回 HostOrClient
     public void BackToHostOrClientFromClient()
     {
-        Panel_Client.SetActive(false);
-        Panel_HostOrClie.SetActive(true);
+        Panel_Client?.Hide();
+        Panel_HostOrClient?.Show();
     }
 
-    // 创建房间按钮占位（后面写网络逻辑）
-    public void OnCreateRoom()
-    {
-        Debug.Log("点击创建房间");
-    }
-
-    // 退出游戏
     public void QuitGame()
     {
 #if UNITY_EDITOR
-        // 在编辑器里：停止播放
-        UnityEditor.EditorApplication.isPlaying = false;
+        EditorApplication.isPlaying = false;
 #else
-            // 打包后：直接关闭程序
-            Application.Quit();
+        Application.Quit();
 #endif
     }
     #endregion
 
-    #region 分辨率
-    void InitResolutionDropdown()
+    #region 设置保存与加载
+    private void InitResolutionDropdown()
     {
-        resList = new List<Resolution>(Screen.resolutions);
-        Dropdown_Resolution.ClearOptions();
-        List<string> resOption = new List<string>();
+        if (Dropdown_Resolution == null) return;
+
+        Dropdown_Resolution.Component.ClearOptions();
+        List<string> optList = new List<string>();
         int currentIndex = 0;
-        for (int i = 0; i < resList.Count; i++)
+
+        int currentW = Screen.width;
+        int currentH = Screen.height;
+
+        for (int i = 0; i < _targetResolutions.Count; i++)
         {
-            var res = resList[i];
-            string opt = $"{res.width} × {res.height}";
-            resOption.Add(opt);
-            if (res.width == Screen.currentResolution.width && res.height == Screen.currentResolution.height)
+            var res = _targetResolutions[i];
+            optList.Add($"{res.width} * {res.height}");
+
+            if (res.width == currentW && res.height == currentH)
             {
                 currentIndex = i;
             }
         }
-        Dropdown_Resolution.AddOptions(resOption);
-        Dropdown_Resolution.value = currentIndex;
-        Dropdown_Resolution.onValueChanged.AddListener(OnResolutionChange);
+
+        Dropdown_Resolution.Component.AddOptions(optList);
+        Dropdown_Resolution.Value = currentIndex;
     }
-    void OnResolutionChange(int idx)
+
+    private void OnResolutionChange(int idx)
     {
-        var res = resList[idx];
+        if (idx < 0 || idx >= _targetResolutions.Count) return;
+
+        var res = _targetResolutions[idx];
         Screen.SetResolution(res.width, res.height, Screen.fullScreenMode);
     }
-    #endregion
 
-    #region 全屏
-    void InitFullScreenToggle()
+    private void InitQualityDropdown()
     {
-        Toggle_FullScreen.isOn = Screen.fullScreen;
-        Toggle_FullScreen.onValueChanged.AddListener(OnFullScreenChange);
+        if (Dropdown_Quality == null) return;
+        Dropdown_Quality.Component.ClearOptions();
+        Dropdown_Quality.Component.AddOptions(new List<string>(QualitySettings.names));
+        Dropdown_Quality.Value = QualitySettings.GetQualityLevel();
     }
-    void OnFullScreenChange(bool isFull)
-    {
-        Screen.fullScreen = isFull;
-    }
-    #endregion
 
-    #region 音量
-    void InitVolumeSlider()
+    private void OnQualityChange(int index)
     {
-        Slider_MasterVolume.value = AudioListener.volume;
-        Slider_MasterVolume.onValueChanged.AddListener(OnMasterVolumeChange);
-        Txt_MasterVolume.text = $"Master Volume: {Slider_MasterVolume.value:F2}";
-        Slider_BGMVolume.onValueChanged.AddListener(OnBGMVolumeChange);
-        Slider_SFXVolume.onValueChanged.AddListener(OnSFXVolumeChange);
+        QualitySettings.SetQualityLevel(index, true);
     }
-    void OnMasterVolumeChange(float val)
-    {
-        AudioListener.volume = val;
-        Txt_MasterVolume.text = $"Master Volume: {val:F2}";
-    }
-    void OnBGMVolumeChange(float val)
-    {
-        Txt_BGMVolume.text = $"BGM Volume: {val:F2}";
-    }
-    void OnSFXVolumeChange(float val)
-    {
-        Txt_SFXVolume.text = $"SFX Volume: {val:F2}";
-    }
-    #endregion
 
-    #region 画质
-    void InitQualityDropdown()
-    {
-        Dropdown_Quality.ClearOptions();
-        List<string> qualityNames = new List<string>(QualitySettings.names);
-        Dropdown_Quality.AddOptions(qualityNames);
-        Dropdown_Quality.value = QualitySettings.GetQualityLevel();
-        Dropdown_Quality.onValueChanged.AddListener(OnQualityChange);
-    }
-    void OnQualityChange(int qualityIndex)
-    {
-        QualitySettings.SetQualityLevel(qualityIndex, true);
-    }
-    #endregion
-
-    #region 保存读取设置
-    void SaveSettings()
+    private void SaveSettings()
     {
         PlayerPrefs.SetFloat("MasterVolume", AudioListener.volume);
-        PlayerPrefs.SetInt("FullScreen", Screen.fullScreen ? 1 : 0);
         PlayerPrefs.SetInt("QualityLevel", QualitySettings.GetQualityLevel());
         PlayerPrefs.Save();
     }
-    void LoadSettings()
+
+    private void LoadSettings()
     {
         float masterVol = PlayerPrefs.GetFloat("MasterVolume", 1f);
         AudioListener.volume = masterVol;
-        Slider_MasterVolume.value = masterVol;
+        if (Slider_MasterVolume != null)
+        {
+            Slider_MasterVolume.Value = masterVol;
+            Slider_MasterVolume.UpdateText(masterVol);
+        }
 
-        bool fullScreen = PlayerPrefs.GetInt("FullScreen", Screen.fullScreen ? 1 : 0) == 1;
-        Screen.fullScreen = fullScreen;
-        Toggle_FullScreen.isOn = fullScreen;
+        int qLv = PlayerPrefs.GetInt("QualityLevel", QualitySettings.GetQualityLevel());
+        QualitySettings.SetQualityLevel(qLv);
+        if (Dropdown_Quality != null) Dropdown_Quality.Value = qLv;
 
-        int qualityLv = PlayerPrefs.GetInt("QualityLevel", QualitySettings.GetQualityLevel());
-        QualitySettings.SetQualityLevel(qualityLv);
-        Dropdown_Quality.value = qualityLv;
+        if (Slider_BGMVolume != null)
+        {
+            Slider_BGMVolume.Value = 1f;
+            Slider_BGMVolume.UpdateText(1f);
+        }
+        if (Slider_SFXVolume != null)
+        {
+            Slider_SFXVolume.Value = 1f;
+            Slider_SFXVolume.UpdateText(1f);
+        }
     }
     #endregion
 }
