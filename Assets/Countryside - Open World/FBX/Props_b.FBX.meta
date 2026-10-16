@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: 9a242cce73f322840aa772ae66dccfd9
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: arrow sign
+    100002: blockk
+    100004: container blue
+    100006: container green
+    100008: container Red
+    100010: container white
+    100012: Flass Light A
+    100014: //RootNode
+    100016: sign a
+    100018: sign b
+    100020: sign c
+    100022: sign d
+    100024: Skid Circle
+    100026: Slide_fly
+    400000: arrow sign
+    400002: blockk
+    400004: container blue
+    400006: container green
+    400008: container Red
+    400010: container white
+    400012: Flass Light A
+    400014: //RootNode
+    400016: sign a
+    400018: sign b
+    400020: sign c
+    400022: sign d
+    400024: Skid Circle
+    400026: Slide_fly
+    2100000: 'Material #350'
+    2300000: arrow sign
+    2300002: blockk
+    2300004: container blue
+    2300006: container green
+    2300008: container Red
+    2300010: container white
+    2300012: Flass Light A
+    2300014: sign a
+    2300016: sign b
+    2300018: sign c
+    2300020: sign d
+    2300022: Skid Circle
+    2300024: Slide_fly
+    3300000: arrow sign
+    3300002: blockk
+    3300004: container blue
+    3300006: container green
+    3300008: container Red
+    3300010: container white
+    3300012: Flass Light A
+    3300014: sign a
+    3300016: sign b
+    3300018: sign c
+    3300020: sign d
+    3300022: Skid Circle
+    3300024: Slide_fly
+    4300000: Slide_fly
+    4300002: Skid Circle
+    4300004: Flass Light A
+    4300006: blockk
+    4300008: container Red
+    4300010: sign a
+    4300012: sign b
+    4300014: sign c
+    4300016: sign d
+    4300018: container green
+    4300020: container blue
+    4300022: container white
+    4300024: arrow sign
+    6400000: arrow sign
+    6400002: blockk
+    6400004: container blue
+    6400006: container green
+    6400008: container Red
+    6400010: container white
+    6400012: Flass Light A
+    6400014: sign a
+    6400016: sign b
+    6400018: sign c
+    6400020: sign d
+    6400022: Skid Circle
+    6400024: Slide_fly
+    7400000: Take 001
+    9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #350'
+    second: {fileID: 2100000, guid: 82d8f0c8495a5e4438bf5573e6e33250, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 15
+    meshCompression: 0
+    addColliders: 1
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.001
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 55
+    normalImportMode: 1
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

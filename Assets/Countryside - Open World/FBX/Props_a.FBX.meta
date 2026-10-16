@@ -1,0 +1,293 @@
+fileFormatVersion: 2
+guid: 20c8743b9a23410418b209d3a1a5bb9c
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: dry_corn
+    100002: fence
+    100004: Grass A
+    100006: Grass B
+    100008: Grass C
+    100010: Grass D
+    100012: green_corn
+    100014: hay_stack
+    100016: log_wood
+    100018: plane_tree_a
+    100020: plane_tree_b
+    100022: plane_tree_c
+    100024: plane_tree_d
+    100026: plane_tree_e
+    100028: plant_green_a
+    100030: plant_green_b
+    100032: plant_green_c
+    100034: plant_green_d
+    100036: plant_green_e
+    100038: //RootNode
+    100040: stamp
+    100042: tractor
+    100044: tree_a_bark
+    100046: tree_a_leaf
+    100048: tree_b_bark
+    100050: tree_b_leaf
+    100052: tree_c_bark
+    100054: tree_c_leaf
+    100056: tree_d_bark
+    100058: tree_d_leaf
+    100060: tree_e_bark
+    100062: tree_e_leaf
+    400000: dry_corn
+    400002: fence
+    400004: Grass A
+    400006: Grass B
+    400008: Grass C
+    400010: Grass D
+    400012: green_corn
+    400014: hay_stack
+    400016: log_wood
+    400018: plane_tree_a
+    400020: plane_tree_b
+    400022: plane_tree_c
+    400024: plane_tree_d
+    400026: plane_tree_e
+    400028: plant_green_a
+    400030: plant_green_b
+    400032: plant_green_c
+    400034: plant_green_d
+    400036: plant_green_e
+    400038: //RootNode
+    400040: stamp
+    400042: tractor
+    400044: tree_a_bark
+    400046: tree_a_leaf
+    400048: tree_b_bark
+    400050: tree_b_leaf
+    400052: tree_c_bark
+    400054: tree_c_leaf
+    400056: tree_d_bark
+    400058: tree_d_leaf
+    400060: tree_e_bark
+    400062: tree_e_leaf
+    2100000: 'Material #349'
+    2100002: 'Material #350'
+    2300000: dry_corn
+    2300002: fence
+    2300004: Grass A
+    2300006: Grass B
+    2300008: Grass C
+    2300010: Grass D
+    2300012: green_corn
+    2300014: hay_stack
+    2300016: log_wood
+    2300018: plane_tree_a
+    2300020: plane_tree_b
+    2300022: plane_tree_c
+    2300024: plane_tree_d
+    2300026: plane_tree_e
+    2300028: plant_green_a
+    2300030: plant_green_b
+    2300032: plant_green_c
+    2300034: plant_green_d
+    2300036: plant_green_e
+    2300038: stamp
+    2300040: tractor
+    2300042: tree_a_bark
+    2300044: tree_a_leaf
+    2300046: tree_b_bark
+    2300048: tree_b_leaf
+    2300050: tree_c_bark
+    2300052: tree_c_leaf
+    2300054: tree_d_bark
+    2300056: tree_d_leaf
+    2300058: tree_e_bark
+    2300060: tree_e_leaf
+    3300000: dry_corn
+    3300002: fence
+    3300004: Grass A
+    3300006: Grass B
+    3300008: Grass C
+    3300010: Grass D
+    3300012: green_corn
+    3300014: hay_stack
+    3300016: log_wood
+    3300018: plane_tree_a
+    3300020: plane_tree_b
+    3300022: plane_tree_c
+    3300024: plane_tree_d
+    3300026: plane_tree_e
+    3300028: plant_green_a
+    3300030: plant_green_b
+    3300032: plant_green_c
+    3300034: plant_green_d
+    3300036: plant_green_e
+    3300038: stamp
+    3300040: tractor
+    3300042: tree_a_bark
+    3300044: tree_a_leaf
+    3300046: tree_b_bark
+    3300048: tree_b_leaf
+    3300050: tree_c_bark
+    3300052: tree_c_leaf
+    3300054: tree_d_bark
+    3300056: tree_d_leaf
+    3300058: tree_e_bark
+    3300060: tree_e_leaf
+    4300000: tree_b_leaf
+    4300002: tree_a_leaf
+    4300004: tree_c_leaf
+    4300006: log_wood
+    4300008: tractor
+    4300010: hay_stack
+    4300012: stamp
+    4300014: fence
+    4300016: tree_a_bark
+    4300018: tree_c_bark
+    4300020: tree_b_bark
+    4300022: tree_d_bark
+    4300024: plant_green_a
+    4300026: plane_tree_a
+    4300028: tree_d_leaf
+    4300030: Grass C
+    4300032: Grass A
+    4300034: tree_e_leaf
+    4300036: tree_e_bark
+    4300038: plant_green_b
+    4300040: plant_green_c
+    4300042: plant_green_d
+    4300044: Grass D
+    4300046: Grass B
+    4300048: plant_green_e
+    4300050: plane_tree_b
+    4300052: plane_tree_c
+    4300054: plane_tree_d
+    4300056: plane_tree_e
+    4300058: dry_corn
+    4300060: green_corn
+    6400000: dry_corn
+    6400002: fence
+    6400004: Grass A
+    6400006: Grass B
+    6400008: Grass C
+    6400010: Grass D
+    6400012: green_corn
+    6400014: hay_stack
+    6400016: log_wood
+    6400018: plane_tree_a
+    6400020: plane_tree_b
+    6400022: plane_tree_c
+    6400024: plane_tree_d
+    6400026: plane_tree_e
+    6400028: plant_green_a
+    6400030: plant_green_b
+    6400032: plant_green_c
+    6400034: plant_green_d
+    6400036: plant_green_e
+    6400038: stamp
+    6400040: tractor
+    6400042: tree_a_bark
+    6400044: tree_a_leaf
+    6400046: tree_b_bark
+    6400048: tree_b_leaf
+    6400050: tree_c_bark
+    6400052: tree_c_leaf
+    6400054: tree_d_bark
+    6400056: tree_d_leaf
+    6400058: tree_e_bark
+    6400060: tree_e_leaf
+    7400000: Take 001
+    9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #349'
+    second: {fileID: 2100000, guid: 534ccb91fc6524b45b0953c5ad03382e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #350'
+    second: {fileID: 2100000, guid: 82d8f0c8495a5e4438bf5573e6e33250, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 1
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.001
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 55
+    normalImportMode: 1
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

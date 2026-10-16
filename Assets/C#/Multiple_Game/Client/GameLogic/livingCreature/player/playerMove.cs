@@ -24,7 +24,9 @@ public class playerMove : MonoBehaviour
     private float groundCheckDistance = 0.2f;
     private float PreGroundDistance = 0.5f;
     [SerializeField] private LayerMask groundLayer;
-    private const float FIXED_DT = 0.02f;
+    private const float TerminalFallSpeed = 30f;
+    private const float GroundStickSpeed = 2f;
+    private readonly RaycastHit[] groundHits = new RaycastHit[16];
 
     private float currentSpeed;
     private float targetSpeed;
@@ -74,17 +76,31 @@ public class playerMove : MonoBehaviour
     }
     private void CheckGround()
     {
-        Ray groundRay = new Ray(transform.position + Vector3.up * 0.05f, Vector3.down);
-        Ray groundRayPre = new Ray(transform.position + Vector3.up * 0.4f, Vector3.down);
-        isGrounded = Physics.Raycast(groundRay, groundCheckDistance, groundLayer);
-        JumpEndPre = Physics.Raycast(groundRay, PreGroundDistance, groundLayer);
+        // The model origin sits below the capsule's feet. Probe from the actual
+        // collider instead, so landing and slopes cannot bury the ray origin.
+        Bounds bounds = moveCollider_stand.bounds;
+        float radius = Mathf.Min(bounds.extents.x, bounds.extents.z) * 0.9f;
+        const float lift = 0.08f;
+        Vector3 origin = new Vector3(bounds.center.x, bounds.min.y + radius + lift, bounds.center.z);
+        int count = Physics.SphereCastNonAlloc(origin, radius, Vector3.down, groundHits,
+            PreGroundDistance + lift, groundLayer, QueryTriggerInteraction.Ignore);
+        isGrounded = false;
+        JumpEndPre = false;
+        for (int i = 0; i < count; i++)
+        {
+            RaycastHit hit = groundHits[i];
+            // Walls, triggers and our own collider must not count as the floor.
+            if (hit.collider.attachedRigidbody == rb || hit.normal.y < 0.5f) continue;
+            JumpEndPre = true;
+            if (hit.distance <= groundCheckDistance + lift) isGrounded = true;
+        }
     }
 
     private void Move_player()
     {
         targetMultiplier = isRunning ? 1f : 0.5f;
        
-        currentMultiplier = Mathf.MoveTowards(currentMultiplier, targetMultiplier, 2f * Time.deltaTime);
+        currentMultiplier = Mathf.MoveTowards(currentMultiplier, targetMultiplier, 2f * Time.fixedDeltaTime);
 
         smoothInputX = Mathf.MoveTowards(smoothInputX, moveInput.x, 5f * Time.fixedDeltaTime);
         smoothInputY = Mathf.MoveTowards(smoothInputY, moveInput.y, 5f * Time.fixedDeltaTime);
@@ -113,9 +129,7 @@ public class playerMove : MonoBehaviour
             ? speedChangeRate
             : speedChangeRate * 0.9f;
 
-        //currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, rate * FIXED_DT);
-        //currentSpeed += (targetSpeed - currentSpeed) * rate * FIXED_DT;
-        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, rate * FIXED_DT);
+        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, rate * Time.fixedDeltaTime);
         if (moveInput.sqrMagnitude > 0.01f)
         {
             // 有输入时：归一化方向并应用当前速度
@@ -148,6 +162,9 @@ public class playerMove : MonoBehaviour
     }
     private void JumpAndGravity()
     {
+        // Respect the velocity resolved by the last physics step (ground or
+        // ceiling contact), rather than accumulating hidden downward speed.
+        verticalVelocity = rb.velocity.y;
         animator.SetBool("Aim", false);
         animator.SetBool("HandGun", false);
         //起跳
@@ -171,13 +188,13 @@ public class playerMove : MonoBehaviour
         // 重力
         if (!isGrounded || verticalVelocity > 0f)
         {
-            if (verticalVelocity < 29f)
-                verticalVelocity -= gravity * FIXED_DT;
-            else verticalVelocity = 30f;
+            verticalVelocity = Mathf.Max(verticalVelocity - gravity * Time.fixedDeltaTime, -TerminalFallSpeed);
         }
         else
         {
-            verticalVelocity = 0f;
+            // A small downward speed keeps contact on slopes without hovering
+            // inside the ground-check distance or forcing the body into the floor.
+            verticalVelocity = -GroundStickSpeed;
         }
 
         rb.velocity = new Vector3(rb.velocity.x, verticalVelocity, rb.velocity.z);
@@ -185,10 +202,17 @@ public class playerMove : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        rb.useGravity = false; // 使用自定义重力逻辑
         animator = GetComponent<Animator>();
         Transform stand = transform.Find("moveCollider_stand");
-        moveCollider_stand = stand.GetComponent<CapsuleCollider>();
+        moveCollider_stand = stand != null ? stand.GetComponent<CapsuleCollider>() : null;
+        if (rb == null || animator == null || moveCollider_stand == null)
+        {
+            Debug.LogError("playerMove requires a Rigidbody, Animator and moveCollider_stand CapsuleCollider.", this);
+            enabled = false;
+            return;
+        }
+        rb.useGravity = false; // 使用自定义重力逻辑
+        if (!rb.isKinematic) rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         currentSpeed = walkSpeed;
     }
 
