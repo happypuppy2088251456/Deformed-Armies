@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 19bc351f0d267ce4c98eaaff4295e3fa
+labels:
+- AllCreature
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84283
+  packageName: Unka the Dragon
+  packageVersion: 3.9b
+  assetPath: Assets/Malbers Animations/Common/Scripts/Editor/Menu/MalbersMenu.cs
+  uploadId: 775859

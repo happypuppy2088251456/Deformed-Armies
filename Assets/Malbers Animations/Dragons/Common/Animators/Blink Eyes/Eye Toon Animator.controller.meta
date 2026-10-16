@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4278a11b873deee41bb498eb37b46cf5
+labels:
+- Animation
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 84283
+  packageName: Unka the Dragon
+  packageVersion: 3.9b
+  assetPath: Assets/Malbers Animations/Dragons/Common/Animators/Blink Eyes/Eye Toon
+    Animator.controller
+  uploadId: 775859

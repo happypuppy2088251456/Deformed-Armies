@@ -1,0 +1,15 @@
+Leafy Grass by Charlotte Baglioni / Poly Haven
+Source: https://polyhaven.com/a/leafy_grass
+License: CC0 https://polyhaven.com/license
+Downloaded: 2026-10-16
+Original size: 4096 x 4096; physical coverage: 2 x 2 metres.
+Maps: Diffuse (sRGB), Normal OpenGL (Normal map import), Roughness (linear).
+Official source files were downloaded unmodified and MD5-verified against the Poly Haven API.
+
+Previously tested on: Assets/Countryside - Open World/Materials/Grass.mat
+Replaced by Grass004 on 2026-10-16. Leafy Grass textures retained as alternatives.
+Shader: DeformedArmies/Leafy Grass
+World XZ mapping, 2 metre tiles; normal strength 0.8.
+This shared grass material also affects other scenes that use it.
+Road/terrain atlas materials and collision geometry are not changed.
+Original material backup: D:/分组作业/.asset-work/leafy-grass/Grass-before.mat

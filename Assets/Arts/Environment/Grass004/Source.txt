@@ -1,0 +1,10 @@
+Grass 004 / ambientCG
+Source: https://ambientcg.com/view?id=Grass004
+License: CC0 https://docs.ambientcg.com/license/
+Downloaded: 2026-10-16
+Package: Grass004_4K-JPG.zip; all ZIP entries passed CRC verification.
+Maps: 4096x4096 Color (sRGB), NormalGL (Normal map import), Roughness (linear).
+Tile width: 1.4 metres; normal strength: 0.8; mipmaps enabled; trilinear; anisotropy 8; high quality compression.
+Applied to shared material Assets/Countryside - Open World/Materials/Grass.mat
+Uses the existing world-space grass shader in Assets/Arts/Environment/LeafyGrass/LeafyGrass.shader.
+Previous Leafy Grass material backup: D:/分组作业/.asset-work/grass004/Grass-before.mat
