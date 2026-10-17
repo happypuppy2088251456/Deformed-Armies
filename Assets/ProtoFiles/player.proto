@@ -1,8 +1,0 @@
-syntax = "proto3";
-package DeformedArmies.Proto; // 改成和你命令里 base_namespace 一致
-
-message Player {
-  int32 id = 1;
-  string name = 2;
-  int32 score = 3;
-}

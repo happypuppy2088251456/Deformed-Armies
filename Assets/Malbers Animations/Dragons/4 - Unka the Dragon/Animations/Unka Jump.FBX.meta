@@ -1,324 +1,950 @@
 fileFormatVersion: 2
 guid: 7f0921a659d05b9439ac0555cdcc7cca
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: BigDragon
-    100002: CG
-    100004: CG Wing RNub
-    100006: Chest Extra 1
-    100008: ChestNub
-    100010: Eye L
-    100012: Eye LNub
-    100014: Eye R
-    100016: Eye RNub
-    100018: Eyes
-    100020: Footsteps
-    100022: Head
-    100024: HeadNub
-    100026: Jaw
-    100028: JawNub
-    100030: L Calf
-    100032: L Clavicle
-    100034: L Finger0
-    100036: L Finger01
-    100038: L Finger0Nub
-    100040: L Finger1
-    100042: L Finger11
-    100044: L Finger1Nub
-    100046: L Finger2
-    100048: L Finger21
-    100050: L Finger2Nub
-    100052: L Finger3
-    100054: L Finger31
-    100056: L Finger3Nub
-    100058: L Foot
-    100060: L Forearm
-    100062: L Hand
-    100064: L HorseLink
-    100066: L Nostril
-    100068: L NostrilNub
-    100070: L Thigh
-    100072: L Toe0
-    100074: L Toe01
-    100076: L Toe0Nub
-    100078: L Toe1
-    100080: L Toe11
-    100082: L Toe1Nub
-    100084: L Toe2
-    100086: L Toe21
-    100088: L Toe2Nub
-    100090: L UpperArm
-    100092: Neck
-    100094: Neck1
-    100096: Neck2
-    100098: Neck3
-    100100: Neck4
-    100102: Pelvis
-    100104: R Calf
-    100106: R Clavicle
-    100108: R Finger0
-    100110: R Finger01
-    100112: R Finger0Nub
-    100114: R Finger1
-    100116: R Finger11
-    100118: R Finger1Nub
-    100120: R Finger2
-    100122: R Finger21
-    100124: R Finger2Nub
-    100126: R Finger3
-    100128: R Finger31
-    100130: R Finger3Nub
-    100132: R Foot
-    100134: R Forearm
-    100136: R Hand
-    100138: R HorseLink
-    100140: R Norstril
-    100142: R NorstrilNub
-    100144: R Thigh
-    100146: R Toe0
-    100148: R Toe01
-    100150: R Toe0Nub
-    100152: R Toe1
-    100154: R Toe11
-    100156: R Toe1Nub
-    100158: R Toe2
-    100160: R Toe21
-    100162: R Toe2Nub
-    100164: R UpperArm
-    100166: Rider
-    100168: Spine
-    100170: Spine1
-    100172: Spine2
-    100174: Tail01
-    100176: Tail02
-    100178: Tail03
-    100180: Tail04
-    100182: Tail05
-    100184: Tail06
-    100186: Tail07
-    100188: Tail08
-    100190: Tail09
-    100192: Tail10
-    100194: TailNub
-    100196: Tongue
-    100198: Tongue02
-    100200: Tongue03
-    100202: TongueNub
-    100204: //RootNode
-    100206: Wing L
-    100208: Wing L Finger 1
-    100210: Wing L Finger 102
-    100212: Wing L Finger 103
-    100214: Wing L Finger 1Nub
-    100216: Wing L Finger 2
-    100218: Wing L Finger 202
-    100220: Wing L Finger 203
-    100222: Wing L Finger 2Nub
-    100224: Wing L Finger 3
-    100226: Wing L Finger 302
-    100228: Wing L Finger 303
-    100230: Wing L Finger 3Nub
-    100232: Wing L Finger 4
-    100234: Wing L Finger 402
-    100236: Wing L Finger 403
-    100238: Wing L Finger 4Nub
-    100240: Wing L02
-    100242: Wing LNub
-    100244: Wing R
-    100246: Wing R Finger 1
-    100248: Wing R Finger 102
-    100250: Wing R Finger 103
-    100252: Wing R Finger 1Nub
-    100254: Wing R Finger 2
-    100256: Wing R Finger 202
-    100258: Wing R Finger 203
-    100260: Wing R Finger 2Nub
-    100262: Wing R Finger 3
-    100264: Wing R Finger 302
-    100266: Wing R Finger 303
-    100268: Wing R Finger 3Nub
-    100270: Wing R Finger 4
-    100272: Wing R Finger 402
-    100274: Wing R Finger 403
-    100276: Wing R Finger 4Nub
-    100278: Wing R02
-    100280: Z7A1K8
-    100282: Z7A1K8 1
-    100284: Z7A1K8 2
-    100286: Z7A1K8 3
-    100288: Z7A1K8 4
-    100290: Z7A1K8 5
-    100292: Z7A1K8 6
-    100294: Z7A1K8 7
-    400000: BigDragon
-    400002: CG
-    400004: CG Wing RNub
-    400006: Chest Extra 1
-    400008: ChestNub
-    400010: Eye L
-    400012: Eye LNub
-    400014: Eye R
-    400016: Eye RNub
-    400018: Eyes
-    400020: Footsteps
-    400022: Head
-    400024: HeadNub
-    400026: Jaw
-    400028: JawNub
-    400030: L Calf
-    400032: L Clavicle
-    400034: L Finger0
-    400036: L Finger01
-    400038: L Finger0Nub
-    400040: L Finger1
-    400042: L Finger11
-    400044: L Finger1Nub
-    400046: L Finger2
-    400048: L Finger21
-    400050: L Finger2Nub
-    400052: L Finger3
-    400054: L Finger31
-    400056: L Finger3Nub
-    400058: L Foot
-    400060: L Forearm
-    400062: L Hand
-    400064: L HorseLink
-    400066: L Nostril
-    400068: L NostrilNub
-    400070: L Thigh
-    400072: L Toe0
-    400074: L Toe01
-    400076: L Toe0Nub
-    400078: L Toe1
-    400080: L Toe11
-    400082: L Toe1Nub
-    400084: L Toe2
-    400086: L Toe21
-    400088: L Toe2Nub
-    400090: L UpperArm
-    400092: Neck
-    400094: Neck1
-    400096: Neck2
-    400098: Neck3
-    400100: Neck4
-    400102: Pelvis
-    400104: R Calf
-    400106: R Clavicle
-    400108: R Finger0
-    400110: R Finger01
-    400112: R Finger0Nub
-    400114: R Finger1
-    400116: R Finger11
-    400118: R Finger1Nub
-    400120: R Finger2
-    400122: R Finger21
-    400124: R Finger2Nub
-    400126: R Finger3
-    400128: R Finger31
-    400130: R Finger3Nub
-    400132: R Foot
-    400134: R Forearm
-    400136: R Hand
-    400138: R HorseLink
-    400140: R Norstril
-    400142: R NorstrilNub
-    400144: R Thigh
-    400146: R Toe0
-    400148: R Toe01
-    400150: R Toe0Nub
-    400152: R Toe1
-    400154: R Toe11
-    400156: R Toe1Nub
-    400158: R Toe2
-    400160: R Toe21
-    400162: R Toe2Nub
-    400164: R UpperArm
-    400166: Rider
-    400168: Spine
-    400170: Spine1
-    400172: Spine2
-    400174: Tail01
-    400176: Tail02
-    400178: Tail03
-    400180: Tail04
-    400182: Tail05
-    400184: Tail06
-    400186: Tail07
-    400188: Tail08
-    400190: Tail09
-    400192: Tail10
-    400194: TailNub
-    400196: Tongue
-    400198: Tongue02
-    400200: Tongue03
-    400202: TongueNub
-    400204: //RootNode
-    400206: Wing L
-    400208: Wing L Finger 1
-    400210: Wing L Finger 102
-    400212: Wing L Finger 103
-    400214: Wing L Finger 1Nub
-    400216: Wing L Finger 2
-    400218: Wing L Finger 202
-    400220: Wing L Finger 203
-    400222: Wing L Finger 2Nub
-    400224: Wing L Finger 3
-    400226: Wing L Finger 302
-    400228: Wing L Finger 303
-    400230: Wing L Finger 3Nub
-    400232: Wing L Finger 4
-    400234: Wing L Finger 402
-    400236: Wing L Finger 403
-    400238: Wing L Finger 4Nub
-    400240: Wing L02
-    400242: Wing LNub
-    400244: Wing R
-    400246: Wing R Finger 1
-    400248: Wing R Finger 102
-    400250: Wing R Finger 103
-    400252: Wing R Finger 1Nub
-    400254: Wing R Finger 2
-    400256: Wing R Finger 202
-    400258: Wing R Finger 203
-    400260: Wing R Finger 2Nub
-    400262: Wing R Finger 3
-    400264: Wing R Finger 302
-    400266: Wing R Finger 303
-    400268: Wing R Finger 3Nub
-    400270: Wing R Finger 4
-    400272: Wing R Finger 402
-    400274: Wing R Finger 403
-    400276: Wing R Finger 4Nub
-    400278: Wing R02
-    400280: Z7A1K8
-    400282: Z7A1K8 1
-    400284: Z7A1K8 2
-    400286: Z7A1K8 3
-    400288: Z7A1K8 4
-    400290: Z7A1K8 5
-    400292: Z7A1K8 6
-    400294: Z7A1K8 7
-    2300000: Eyes
-    2300002: Rider
-    3300000: Eyes
-    3300002: Rider
-    4300000: BigDragon
-    4300002: Eyes
-    4300004: Rider
-    7400000: UJump Up
-    7400002: UJump Up Baked
-    7400004: UJump Run
-    7400006: UJump Forward Baked
-    7400008: UJump Forward
-    7400010: UJump Run Baked
-    7400012: UJump Forward Land
-    7400014: UJump Run Land
-    9500000: //RootNode
-    13700000: BigDragon
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: BigDragon
+  - first:
+      1: 100002
+    second: CG
+  - first:
+      1: 100004
+    second: CG Wing RNub
+  - first:
+      1: 100006
+    second: Chest Extra 1
+  - first:
+      1: 100008
+    second: ChestNub
+  - first:
+      1: 100010
+    second: Eye L
+  - first:
+      1: 100012
+    second: Eye LNub
+  - first:
+      1: 100014
+    second: Eye R
+  - first:
+      1: 100016
+    second: Eye RNub
+  - first:
+      1: 100018
+    second: Eyes
+  - first:
+      1: 100020
+    second: Footsteps
+  - first:
+      1: 100022
+    second: Head
+  - first:
+      1: 100024
+    second: HeadNub
+  - first:
+      1: 100026
+    second: Jaw
+  - first:
+      1: 100028
+    second: JawNub
+  - first:
+      1: 100030
+    second: L Calf
+  - first:
+      1: 100032
+    second: L Clavicle
+  - first:
+      1: 100034
+    second: L Finger0
+  - first:
+      1: 100036
+    second: L Finger01
+  - first:
+      1: 100038
+    second: L Finger0Nub
+  - first:
+      1: 100040
+    second: L Finger1
+  - first:
+      1: 100042
+    second: L Finger11
+  - first:
+      1: 100044
+    second: L Finger1Nub
+  - first:
+      1: 100046
+    second: L Finger2
+  - first:
+      1: 100048
+    second: L Finger21
+  - first:
+      1: 100050
+    second: L Finger2Nub
+  - first:
+      1: 100052
+    second: L Finger3
+  - first:
+      1: 100054
+    second: L Finger31
+  - first:
+      1: 100056
+    second: L Finger3Nub
+  - first:
+      1: 100058
+    second: L Foot
+  - first:
+      1: 100060
+    second: L Forearm
+  - first:
+      1: 100062
+    second: L Hand
+  - first:
+      1: 100064
+    second: L HorseLink
+  - first:
+      1: 100066
+    second: L Nostril
+  - first:
+      1: 100068
+    second: L NostrilNub
+  - first:
+      1: 100070
+    second: L Thigh
+  - first:
+      1: 100072
+    second: L Toe0
+  - first:
+      1: 100074
+    second: L Toe01
+  - first:
+      1: 100076
+    second: L Toe0Nub
+  - first:
+      1: 100078
+    second: L Toe1
+  - first:
+      1: 100080
+    second: L Toe11
+  - first:
+      1: 100082
+    second: L Toe1Nub
+  - first:
+      1: 100084
+    second: L Toe2
+  - first:
+      1: 100086
+    second: L Toe21
+  - first:
+      1: 100088
+    second: L Toe2Nub
+  - first:
+      1: 100090
+    second: L UpperArm
+  - first:
+      1: 100092
+    second: Neck
+  - first:
+      1: 100094
+    second: Neck1
+  - first:
+      1: 100096
+    second: Neck2
+  - first:
+      1: 100098
+    second: Neck3
+  - first:
+      1: 100100
+    second: Neck4
+  - first:
+      1: 100102
+    second: Pelvis
+  - first:
+      1: 100104
+    second: R Calf
+  - first:
+      1: 100106
+    second: R Clavicle
+  - first:
+      1: 100108
+    second: R Finger0
+  - first:
+      1: 100110
+    second: R Finger01
+  - first:
+      1: 100112
+    second: R Finger0Nub
+  - first:
+      1: 100114
+    second: R Finger1
+  - first:
+      1: 100116
+    second: R Finger11
+  - first:
+      1: 100118
+    second: R Finger1Nub
+  - first:
+      1: 100120
+    second: R Finger2
+  - first:
+      1: 100122
+    second: R Finger21
+  - first:
+      1: 100124
+    second: R Finger2Nub
+  - first:
+      1: 100126
+    second: R Finger3
+  - first:
+      1: 100128
+    second: R Finger31
+  - first:
+      1: 100130
+    second: R Finger3Nub
+  - first:
+      1: 100132
+    second: R Foot
+  - first:
+      1: 100134
+    second: R Forearm
+  - first:
+      1: 100136
+    second: R Hand
+  - first:
+      1: 100138
+    second: R HorseLink
+  - first:
+      1: 100140
+    second: R Norstril
+  - first:
+      1: 100142
+    second: R NorstrilNub
+  - first:
+      1: 100144
+    second: R Thigh
+  - first:
+      1: 100146
+    second: R Toe0
+  - first:
+      1: 100148
+    second: R Toe01
+  - first:
+      1: 100150
+    second: R Toe0Nub
+  - first:
+      1: 100152
+    second: R Toe1
+  - first:
+      1: 100154
+    second: R Toe11
+  - first:
+      1: 100156
+    second: R Toe1Nub
+  - first:
+      1: 100158
+    second: R Toe2
+  - first:
+      1: 100160
+    second: R Toe21
+  - first:
+      1: 100162
+    second: R Toe2Nub
+  - first:
+      1: 100164
+    second: R UpperArm
+  - first:
+      1: 100166
+    second: Rider
+  - first:
+      1: 100168
+    second: Spine
+  - first:
+      1: 100170
+    second: Spine1
+  - first:
+      1: 100172
+    second: Spine2
+  - first:
+      1: 100174
+    second: Tail01
+  - first:
+      1: 100176
+    second: Tail02
+  - first:
+      1: 100178
+    second: Tail03
+  - first:
+      1: 100180
+    second: Tail04
+  - first:
+      1: 100182
+    second: Tail05
+  - first:
+      1: 100184
+    second: Tail06
+  - first:
+      1: 100186
+    second: Tail07
+  - first:
+      1: 100188
+    second: Tail08
+  - first:
+      1: 100190
+    second: Tail09
+  - first:
+      1: 100192
+    second: Tail10
+  - first:
+      1: 100194
+    second: TailNub
+  - first:
+      1: 100196
+    second: Tongue
+  - first:
+      1: 100198
+    second: Tongue02
+  - first:
+      1: 100200
+    second: Tongue03
+  - first:
+      1: 100202
+    second: TongueNub
+  - first:
+      1: 100204
+    second: //RootNode
+  - first:
+      1: 100206
+    second: Wing L
+  - first:
+      1: 100208
+    second: Wing L Finger 1
+  - first:
+      1: 100210
+    second: Wing L Finger 102
+  - first:
+      1: 100212
+    second: Wing L Finger 103
+  - first:
+      1: 100214
+    second: Wing L Finger 1Nub
+  - first:
+      1: 100216
+    second: Wing L Finger 2
+  - first:
+      1: 100218
+    second: Wing L Finger 202
+  - first:
+      1: 100220
+    second: Wing L Finger 203
+  - first:
+      1: 100222
+    second: Wing L Finger 2Nub
+  - first:
+      1: 100224
+    second: Wing L Finger 3
+  - first:
+      1: 100226
+    second: Wing L Finger 302
+  - first:
+      1: 100228
+    second: Wing L Finger 303
+  - first:
+      1: 100230
+    second: Wing L Finger 3Nub
+  - first:
+      1: 100232
+    second: Wing L Finger 4
+  - first:
+      1: 100234
+    second: Wing L Finger 402
+  - first:
+      1: 100236
+    second: Wing L Finger 403
+  - first:
+      1: 100238
+    second: Wing L Finger 4Nub
+  - first:
+      1: 100240
+    second: Wing L02
+  - first:
+      1: 100242
+    second: Wing LNub
+  - first:
+      1: 100244
+    second: Wing R
+  - first:
+      1: 100246
+    second: Wing R Finger 1
+  - first:
+      1: 100248
+    second: Wing R Finger 102
+  - first:
+      1: 100250
+    second: Wing R Finger 103
+  - first:
+      1: 100252
+    second: Wing R Finger 1Nub
+  - first:
+      1: 100254
+    second: Wing R Finger 2
+  - first:
+      1: 100256
+    second: Wing R Finger 202
+  - first:
+      1: 100258
+    second: Wing R Finger 203
+  - first:
+      1: 100260
+    second: Wing R Finger 2Nub
+  - first:
+      1: 100262
+    second: Wing R Finger 3
+  - first:
+      1: 100264
+    second: Wing R Finger 302
+  - first:
+      1: 100266
+    second: Wing R Finger 303
+  - first:
+      1: 100268
+    second: Wing R Finger 3Nub
+  - first:
+      1: 100270
+    second: Wing R Finger 4
+  - first:
+      1: 100272
+    second: Wing R Finger 402
+  - first:
+      1: 100274
+    second: Wing R Finger 403
+  - first:
+      1: 100276
+    second: Wing R Finger 4Nub
+  - first:
+      1: 100278
+    second: Wing R02
+  - first:
+      1: 100280
+    second: Z7A1K8
+  - first:
+      1: 100282
+    second: Z7A1K8 1
+  - first:
+      1: 100284
+    second: Z7A1K8 2
+  - first:
+      1: 100286
+    second: Z7A1K8 3
+  - first:
+      1: 100288
+    second: Z7A1K8 4
+  - first:
+      1: 100290
+    second: Z7A1K8 5
+  - first:
+      1: 100292
+    second: Z7A1K8 6
+  - first:
+      1: 100294
+    second: Z7A1K8 7
+  - first:
+      4: 400000
+    second: BigDragon
+  - first:
+      4: 400002
+    second: CG
+  - first:
+      4: 400004
+    second: CG Wing RNub
+  - first:
+      4: 400006
+    second: Chest Extra 1
+  - first:
+      4: 400008
+    second: ChestNub
+  - first:
+      4: 400010
+    second: Eye L
+  - first:
+      4: 400012
+    second: Eye LNub
+  - first:
+      4: 400014
+    second: Eye R
+  - first:
+      4: 400016
+    second: Eye RNub
+  - first:
+      4: 400018
+    second: Eyes
+  - first:
+      4: 400020
+    second: Footsteps
+  - first:
+      4: 400022
+    second: Head
+  - first:
+      4: 400024
+    second: HeadNub
+  - first:
+      4: 400026
+    second: Jaw
+  - first:
+      4: 400028
+    second: JawNub
+  - first:
+      4: 400030
+    second: L Calf
+  - first:
+      4: 400032
+    second: L Clavicle
+  - first:
+      4: 400034
+    second: L Finger0
+  - first:
+      4: 400036
+    second: L Finger01
+  - first:
+      4: 400038
+    second: L Finger0Nub
+  - first:
+      4: 400040
+    second: L Finger1
+  - first:
+      4: 400042
+    second: L Finger11
+  - first:
+      4: 400044
+    second: L Finger1Nub
+  - first:
+      4: 400046
+    second: L Finger2
+  - first:
+      4: 400048
+    second: L Finger21
+  - first:
+      4: 400050
+    second: L Finger2Nub
+  - first:
+      4: 400052
+    second: L Finger3
+  - first:
+      4: 400054
+    second: L Finger31
+  - first:
+      4: 400056
+    second: L Finger3Nub
+  - first:
+      4: 400058
+    second: L Foot
+  - first:
+      4: 400060
+    second: L Forearm
+  - first:
+      4: 400062
+    second: L Hand
+  - first:
+      4: 400064
+    second: L HorseLink
+  - first:
+      4: 400066
+    second: L Nostril
+  - first:
+      4: 400068
+    second: L NostrilNub
+  - first:
+      4: 400070
+    second: L Thigh
+  - first:
+      4: 400072
+    second: L Toe0
+  - first:
+      4: 400074
+    second: L Toe01
+  - first:
+      4: 400076
+    second: L Toe0Nub
+  - first:
+      4: 400078
+    second: L Toe1
+  - first:
+      4: 400080
+    second: L Toe11
+  - first:
+      4: 400082
+    second: L Toe1Nub
+  - first:
+      4: 400084
+    second: L Toe2
+  - first:
+      4: 400086
+    second: L Toe21
+  - first:
+      4: 400088
+    second: L Toe2Nub
+  - first:
+      4: 400090
+    second: L UpperArm
+  - first:
+      4: 400092
+    second: Neck
+  - first:
+      4: 400094
+    second: Neck1
+  - first:
+      4: 400096
+    second: Neck2
+  - first:
+      4: 400098
+    second: Neck3
+  - first:
+      4: 400100
+    second: Neck4
+  - first:
+      4: 400102
+    second: Pelvis
+  - first:
+      4: 400104
+    second: R Calf
+  - first:
+      4: 400106
+    second: R Clavicle
+  - first:
+      4: 400108
+    second: R Finger0
+  - first:
+      4: 400110
+    second: R Finger01
+  - first:
+      4: 400112
+    second: R Finger0Nub
+  - first:
+      4: 400114
+    second: R Finger1
+  - first:
+      4: 400116
+    second: R Finger11
+  - first:
+      4: 400118
+    second: R Finger1Nub
+  - first:
+      4: 400120
+    second: R Finger2
+  - first:
+      4: 400122
+    second: R Finger21
+  - first:
+      4: 400124
+    second: R Finger2Nub
+  - first:
+      4: 400126
+    second: R Finger3
+  - first:
+      4: 400128
+    second: R Finger31
+  - first:
+      4: 400130
+    second: R Finger3Nub
+  - first:
+      4: 400132
+    second: R Foot
+  - first:
+      4: 400134
+    second: R Forearm
+  - first:
+      4: 400136
+    second: R Hand
+  - first:
+      4: 400138
+    second: R HorseLink
+  - first:
+      4: 400140
+    second: R Norstril
+  - first:
+      4: 400142
+    second: R NorstrilNub
+  - first:
+      4: 400144
+    second: R Thigh
+  - first:
+      4: 400146
+    second: R Toe0
+  - first:
+      4: 400148
+    second: R Toe01
+  - first:
+      4: 400150
+    second: R Toe0Nub
+  - first:
+      4: 400152
+    second: R Toe1
+  - first:
+      4: 400154
+    second: R Toe11
+  - first:
+      4: 400156
+    second: R Toe1Nub
+  - first:
+      4: 400158
+    second: R Toe2
+  - first:
+      4: 400160
+    second: R Toe21
+  - first:
+      4: 400162
+    second: R Toe2Nub
+  - first:
+      4: 400164
+    second: R UpperArm
+  - first:
+      4: 400166
+    second: Rider
+  - first:
+      4: 400168
+    second: Spine
+  - first:
+      4: 400170
+    second: Spine1
+  - first:
+      4: 400172
+    second: Spine2
+  - first:
+      4: 400174
+    second: Tail01
+  - first:
+      4: 400176
+    second: Tail02
+  - first:
+      4: 400178
+    second: Tail03
+  - first:
+      4: 400180
+    second: Tail04
+  - first:
+      4: 400182
+    second: Tail05
+  - first:
+      4: 400184
+    second: Tail06
+  - first:
+      4: 400186
+    second: Tail07
+  - first:
+      4: 400188
+    second: Tail08
+  - first:
+      4: 400190
+    second: Tail09
+  - first:
+      4: 400192
+    second: Tail10
+  - first:
+      4: 400194
+    second: TailNub
+  - first:
+      4: 400196
+    second: Tongue
+  - first:
+      4: 400198
+    second: Tongue02
+  - first:
+      4: 400200
+    second: Tongue03
+  - first:
+      4: 400202
+    second: TongueNub
+  - first:
+      4: 400204
+    second: //RootNode
+  - first:
+      4: 400206
+    second: Wing L
+  - first:
+      4: 400208
+    second: Wing L Finger 1
+  - first:
+      4: 400210
+    second: Wing L Finger 102
+  - first:
+      4: 400212
+    second: Wing L Finger 103
+  - first:
+      4: 400214
+    second: Wing L Finger 1Nub
+  - first:
+      4: 400216
+    second: Wing L Finger 2
+  - first:
+      4: 400218
+    second: Wing L Finger 202
+  - first:
+      4: 400220
+    second: Wing L Finger 203
+  - first:
+      4: 400222
+    second: Wing L Finger 2Nub
+  - first:
+      4: 400224
+    second: Wing L Finger 3
+  - first:
+      4: 400226
+    second: Wing L Finger 302
+  - first:
+      4: 400228
+    second: Wing L Finger 303
+  - first:
+      4: 400230
+    second: Wing L Finger 3Nub
+  - first:
+      4: 400232
+    second: Wing L Finger 4
+  - first:
+      4: 400234
+    second: Wing L Finger 402
+  - first:
+      4: 400236
+    second: Wing L Finger 403
+  - first:
+      4: 400238
+    second: Wing L Finger 4Nub
+  - first:
+      4: 400240
+    second: Wing L02
+  - first:
+      4: 400242
+    second: Wing LNub
+  - first:
+      4: 400244
+    second: Wing R
+  - first:
+      4: 400246
+    second: Wing R Finger 1
+  - first:
+      4: 400248
+    second: Wing R Finger 102
+  - first:
+      4: 400250
+    second: Wing R Finger 103
+  - first:
+      4: 400252
+    second: Wing R Finger 1Nub
+  - first:
+      4: 400254
+    second: Wing R Finger 2
+  - first:
+      4: 400256
+    second: Wing R Finger 202
+  - first:
+      4: 400258
+    second: Wing R Finger 203
+  - first:
+      4: 400260
+    second: Wing R Finger 2Nub
+  - first:
+      4: 400262
+    second: Wing R Finger 3
+  - first:
+      4: 400264
+    second: Wing R Finger 302
+  - first:
+      4: 400266
+    second: Wing R Finger 303
+  - first:
+      4: 400268
+    second: Wing R Finger 3Nub
+  - first:
+      4: 400270
+    second: Wing R Finger 4
+  - first:
+      4: 400272
+    second: Wing R Finger 402
+  - first:
+      4: 400274
+    second: Wing R Finger 403
+  - first:
+      4: 400276
+    second: Wing R Finger 4Nub
+  - first:
+      4: 400278
+    second: Wing R02
+  - first:
+      4: 400280
+    second: Z7A1K8
+  - first:
+      4: 400282
+    second: Z7A1K8 1
+  - first:
+      4: 400284
+    second: Z7A1K8 2
+  - first:
+      4: 400286
+    second: Z7A1K8 3
+  - first:
+      4: 400288
+    second: Z7A1K8 4
+  - first:
+      4: 400290
+    second: Z7A1K8 5
+  - first:
+      4: 400292
+    second: Z7A1K8 6
+  - first:
+      4: 400294
+    second: Z7A1K8 7
+  - first:
+      23: 2300000
+    second: Eyes
+  - first:
+      23: 2300002
+    second: Rider
+  - first:
+      33: 3300000
+    second: Eyes
+  - first:
+      33: 3300002
+    second: Rider
+  - first:
+      43: 4300000
+    second: BigDragon
+  - first:
+      43: 4300002
+    second: Eyes
+  - first:
+      43: 4300004
+    second: Rider
+  - first:
+      74: 7400000
+    second: UJump Up
+  - first:
+      74: 7400002
+    second: UJump Up Baked
+  - first:
+      74: 7400004
+    second: UJump Run
+  - first:
+      74: 7400006
+    second: UJump Forward Baked
+  - first:
+      74: 7400008
+    second: UJump Forward
+  - first:
+      74: 7400010
+    second: UJump Run Baked
+  - first:
+      74: 7400012
+    second: UJump Forward Land
+  - first:
+      74: 7400014
+    second: UJump Run Land
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: BigDragon
   externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 0
@@ -327,6 +953,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -347,6 +974,7 @@ ModelImporter:
     - serializedVersion: 16
       name: UJump Up
       takeName: Take 001
+      internalID: 0
       firstFrame: 1
       lastFrame: 81
       wrapMode: 0
@@ -732,6 +1360,7 @@ ModelImporter:
     - serializedVersion: 16
       name: UJump Up Baked
       takeName: Take 001
+      internalID: 0
       firstFrame: 1
       lastFrame: 81
       wrapMode: 0
@@ -1009,6 +1638,7 @@ ModelImporter:
     - serializedVersion: 16
       name: UJump Forward
       takeName: Take 001
+      internalID: 0
       firstFrame: 84
       lastFrame: 146
       wrapMode: 0
@@ -1286,6 +1916,7 @@ ModelImporter:
     - serializedVersion: 16
       name: UJump Forward Baked
       takeName: Take 001
+      internalID: 0
       firstFrame: 84
       lastFrame: 146
       wrapMode: 0
@@ -1563,6 +2194,7 @@ ModelImporter:
     - serializedVersion: 16
       name: UJump Run
       takeName: Take 001
+      internalID: 0
       firstFrame: 149
       lastFrame: 221
       wrapMode: 0
@@ -1840,6 +2472,7 @@ ModelImporter:
     - serializedVersion: 16
       name: UJump Run Baked
       takeName: Take 001
+      internalID: 0
       firstFrame: 149
       lastFrame: 221
       wrapMode: 0
@@ -2117,6 +2750,7 @@ ModelImporter:
     - serializedVersion: 16
       name: UJump Forward Land
       takeName: Take 001
+      internalID: 0
       firstFrame: 124
       lastFrame: 146
       wrapMode: 0
@@ -2387,6 +3021,7 @@ ModelImporter:
     - serializedVersion: 16
       name: UJump Run Land
       takeName: Take 001
+      internalID: 0
       firstFrame: 198
       lastFrame: 221
       wrapMode: 0
@@ -2661,25 +3296,36 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
     importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
     indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -2688,10 +3334,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 1
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -2701,23 +3347,20 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: CG
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: e127a9a1479186149aa6f16e8745b8de,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: e127a9a1479186149aa6f16e8745b8de, type: 3}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 2
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 84283
-  packageName: Unka the Dragon
-  packageVersion: 3.9b
-  assetPath: Assets/Malbers Animations/Dragons/4 - Unka the Dragon/Animations/Unka
-    Jump.FBX
-  uploadId: 775859
