@@ -7,10 +7,12 @@ using System.Reflection;
 using UnityEngine;
 using TMPro;
 using UIWrapper;
+using UnityEngine.Audio; 
 
 public class UIManager : MonoBehaviour
 {
     #region 面板绑定
+    //绑定“主菜单” “主机/客户端选择面板” “建房面板” “进房面板” “设置面板”
     [UIBind("Canvas/GameMenuGroup/MainMenu_Panel")]
     private UIPanel MainMenu_Panel;
 
@@ -28,6 +30,7 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region 按钮绑定
+    //绑定全部按钮，UIBottom封装了OnClick避免手写
     [UIBind("Canvas/GameMenuGroup/MainMenu_Panel/Btn_EnterGame")]
     private UIButton Btn_EnterGame;
 
@@ -60,6 +63,14 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region 设置面板控件绑定
+
+    [Header("Audio Mixer")]
+    [SerializeField] private AudioMixer audioMixer;
+
+    private const string MIXER_MASTER = "MasterVolume";
+    private const string MIXER_BGM = "BGMVolume";
+    private const string MIXER_SFX = "SFXVolume";
+
     [UIBind("Canvas/SettingGroup/SettingPanel/Dropdown_Resolution")]
     private UIDropdown Dropdown_Resolution;
 
@@ -82,7 +93,7 @@ public class UIManager : MonoBehaviour
     private UISlider Slider_SFXVolume;
     #endregion
 
-    // 全局控件注册表字典
+    // 全局控件注册表字典，统一管理UI
     private readonly Dictionary<string, UIElement> _uiRegistry = new Dictionary<string, UIElement>();
 
     // 预设的 4 种分辨率
@@ -105,11 +116,13 @@ public class UIManager : MonoBehaviour
         new CustomResolution(1366, 768)
     };
 
+//自动UI绑定
     private void Awake()
     {
         AutoBindUI();
     }
 
+//初始化
     private void Start()
     {
         SettingPanel?.Hide();
@@ -212,9 +225,20 @@ public class UIManager : MonoBehaviour
 
         Btn_CreateRoom?.OnClick(() => Debug.Log("点击创建房间"));
 
-        Slider_MasterVolume?.OnValueChanged(val => AudioListener.volume = val);
-        Slider_BGMVolume?.OnValueChanged(val => { });
-        Slider_SFXVolume?.OnValueChanged(val => { });
+        Slider_MasterVolume?.OnValueChanged(val => {
+            SetAudioMixerVolume(MIXER_MASTER, val);
+            PlayerPrefs.SetFloat("MasterVolume", val);
+        });
+        
+        Slider_BGMVolume?.OnValueChanged(val => {
+            SetAudioMixerVolume(MIXER_BGM, val);
+            PlayerPrefs.SetFloat("BGMVolume", val);
+        });
+        
+        Slider_SFXVolume?.OnValueChanged(val => {
+            SetAudioMixerVolume(MIXER_SFX, val);
+            PlayerPrefs.SetFloat("SFXVolume", val);
+        });
 
         Dropdown_Resolution?.OnValueChanged(OnResolutionChange);
         Dropdown_Quality?.OnValueChanged(OnQualityChange);
@@ -276,7 +300,7 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    #region 设置保存与加载
+    #region 设置保存与加载、分辨率、画质、音量逻辑
     private void InitResolutionDropdown()
     {
         if (Dropdown_Resolution == null) return;
@@ -301,6 +325,17 @@ public class UIManager : MonoBehaviour
 
         Dropdown_Resolution.Component.AddOptions(optList);
         Dropdown_Resolution.Value = currentIndex;
+    }
+
+    private void SetAudioMixerVolume(string parameterName, float linearValue)
+    {
+        if (audioMixer == null) return;
+        
+        // 防止 Log10(0) 出现负无穷错误，将最小值限制在 0.0001
+        float clampedValue = Mathf.Clamp(linearValue, 0.0001f, 1f);
+        float db = Mathf.Log10(clampedValue) * 20f;
+        
+        audioMixer.SetFloat(parameterName, db);
     }
 
     private void OnResolutionChange(int idx)
